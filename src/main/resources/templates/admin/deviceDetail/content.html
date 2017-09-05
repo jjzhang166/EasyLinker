@@ -75,11 +75,10 @@
 <script type="application/javascript">
     function push() {
         $.post("/admin/pushMessage", {
-            deviceId: $('#deviceId').val(),
-            deviceType: $('#deviceType').val(),
+            deviceId:$('#deviceId').val(),
             message: $('#message').val()
         }, function (data, status) {
-            alert("推送成功！");
+            alert("推送成功！"+status);
         });
     }
 

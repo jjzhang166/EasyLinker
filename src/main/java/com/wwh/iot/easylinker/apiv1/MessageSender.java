@@ -18,8 +18,8 @@ public class MessageSender {
     @Autowired
     public ActiveMQMessageProducer activeMQMessageProducer;
 
-    public JSONObject pushMessage(String deviceId, DeviceType deviceType, String message) {
-        activeMQMessageProducer.pushMessage(deviceId, deviceType, message);
+    public JSONObject pushMessage(String deviceId,  String message) {
+        activeMQMessageProducer.pushMessage(deviceId, message);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("state", 1);
         jsonObject.put("message", SystemMessage.OPERATE_SUCCESS.toString());

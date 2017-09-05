@@ -125,8 +125,8 @@ public class AdminController {
 
     @RequestMapping("/pushMessage")
     @ResponseBody
-    public JSONObject pushMessage(@RequestParam String deviceId, @RequestParam DeviceType deviceType, @RequestParam(defaultValue = "default") String message) {
-        return activeMQMessageProducer.pushMessage(deviceId, deviceType, message);
+    public JSONObject pushMessage(@RequestParam String deviceId, /*@RequestParam DeviceType deviceType,*/ @RequestParam(defaultValue = "default") String message) {
+        return activeMQMessageProducer.pushMessage(deviceId, message);
     }
 
 

@@ -29,8 +29,8 @@ public class APIV1Controller {
     }
 
     @RequestMapping("/sendMessage")
-    public JSONObject sendMessage(@RequestParam String deviceId, @RequestParam DeviceType deviceType, @RequestParam(defaultValue = "default") String message) {
-        return messageSender.pushMessage(deviceId, deviceType, message);
+    public JSONObject sendMessage(@RequestParam String deviceId, @RequestParam(defaultValue = "default") String message) {
+        return messageSender.pushMessage(deviceId, message);
 
     }
 }

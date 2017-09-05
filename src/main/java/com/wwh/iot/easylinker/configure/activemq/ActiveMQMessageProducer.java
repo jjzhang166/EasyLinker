@@ -27,8 +27,8 @@ public class ActiveMQMessageProducer {
 //     this.jmsTemplate.convertAndSend(activeMQTopic, "测试消息");
 //    }
 
-    public JSONObject pushMessage(String deviceId, DeviceType deviceType, String message) {
-        this.jmsTemplate.convertAndSend(new ActiveMQTopic(deviceType.toString() + "." + deviceId), message);
+    public JSONObject pushMessage(String deviceId, String message) {
+        this.jmsTemplate.convertAndSend(new ActiveMQTopic("device."+ deviceId), message);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("state", 1);
         jsonObject.put("message", SystemMessage.OPERATE_SUCCESS.toString());

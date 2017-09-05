@@ -42,6 +42,9 @@ public class AdviseConsumer {
                 isLocalConnection = true;
             }
 
+
+
+
             if ((username != null) && ((device = deviceRepository.findOne(username)) != null)) {
                 device.setConnectionId(connectionId);
                 device.setIsOnline(true);
@@ -64,12 +67,13 @@ public class AdviseConsumer {
             device.setIsOnline(false);
             deviceRepository.save(device);
             logger.info("Device disconnected with connection-id:" + objectId);
-        }else {
             if (isLegalDevice){
                 logger.warn("合法设备断开!");
             }else {
                 logger.warn("不合法设备断开!");
             }
+        }else {
+
 
         }
 

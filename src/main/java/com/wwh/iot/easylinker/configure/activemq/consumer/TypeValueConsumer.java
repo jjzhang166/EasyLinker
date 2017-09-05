@@ -1,5 +1,6 @@
 package com.wwh.iot.easylinker.configure.activemq.consumer;
 
+import org.apache.activemq.command.ActiveMQMessage;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
@@ -8,8 +9,8 @@ import org.springframework.stereotype.Component;
  */
 @Component("TypeValueConsumer")
 public class TypeValueConsumer {
-    @JmsListener(destination = "TYPE_VALUE.>")
-    public void receiveMessage(String text) {
-        System.out.println("from TYPE_VALUE message:"+text);
+    @JmsListener(destination = "device.>")
+    public void receiveMessage(ActiveMQMessage message) {
+        System.out.println("from device message:"+message);
     }
 }
