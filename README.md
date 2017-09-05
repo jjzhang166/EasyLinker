@@ -11,19 +11,19 @@
   &emsp;&emsp;于是自己着手试了一下，在很长的时间里，尝试了很多方法，也解决了一部分问题，但是总是不完美，期间用了Python在树莓派上实现一个数据呈现平台，但是不理想，折腾许久，最终决定用Java来实现这个平台。这就是这个项目的来源，含义就是：让一切联网变得更加容易！
 
 &emsp;&emsp;
-###主页
+ ### 主页
 ![](screenshot/1.png)
 &emsp;&emsp;
-###登录页面
+### 登录页面
 ![](screenshot/2.png)
 &emsp;&emsp;
-###管理首页
+### 管理首页
 ![](screenshot/3.png)
 &emsp;&emsp;
-###设备列表
+### 设备列表
 ![](screenshot/4.png)
 &emsp;&emsp;
-###推送控制台
+### 推送控制台
 ![](screenshot/5.png)
 &emsp;&emsp;
   
