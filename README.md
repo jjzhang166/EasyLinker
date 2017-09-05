@@ -1,4 +1,5 @@
 # EasyLinker物联网云平台
+&emsp;&emsp;![](src\main\resources\static\images\logo.png)
 ### 前言  
 
 &emsp;&emsp;本人是电子信息工程理工科男一枚，标准技术宅。本应该去研究CPU架构和汇编语言的我，却迷上了WEB互联网开发。加上平时喜欢折腾一些极客玩具，渐渐的对硬件也来了兴趣。
