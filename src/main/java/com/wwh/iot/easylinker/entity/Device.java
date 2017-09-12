@@ -1,8 +1,10 @@
 package com.wwh.iot.easylinker.entity;
 
 import com.wwh.iot.easylinker.constants.DeviceType;
+import com.wwh.iot.easylinker.entity.data.TypeMediaData;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -24,6 +26,9 @@ public class Device extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL,optional = true)
     private AppUser appUser;
     private Boolean isOnline=false;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
+    private List<TypeMediaData> dataList;
 
     public void setConnectionId(String connectionId) {
         this.connectionId = connectionId;

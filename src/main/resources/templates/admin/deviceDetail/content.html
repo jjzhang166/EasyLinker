@@ -74,6 +74,8 @@
 
 <script type="application/javascript">
     function push() {
+        console.log($('#deviceId').val());
+        console.log($('#message').val());
         $.post("/admin/pushMessage", {
             deviceId:$('#deviceId').val(),
             message: $('#message').val()

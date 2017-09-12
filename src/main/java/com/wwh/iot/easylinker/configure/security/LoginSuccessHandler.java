@@ -26,7 +26,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse httpServletResponse,
                                         Authentication authentication) throws IOException, ServletException {
-        System.out.println("登陆成功");
         AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         String loginType = request.getParameter("loginType");
