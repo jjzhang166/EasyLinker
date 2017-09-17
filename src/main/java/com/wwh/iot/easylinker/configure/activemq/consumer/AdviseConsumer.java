@@ -27,14 +27,11 @@ public class AdviseConsumer {
     @Autowired
     private JmsTemplate jmsTemplate;
 
-    ConsumerId consumerId;
-    ConsumerInfo consumerInfo;
     @JmsListener(destination = "ActiveMQ.Advisory.Connection.>")
     public void onConnection(ActiveMQMessage connectionMessage) throws Exception {
         boolean isLegalDevice = false;//默认没有连接
         boolean isLocalConnection = false;
         DataStructure dataStructure = connectionMessage.getDataStructure();
-        System.out.println("新的连接 dataStructure-->"+dataStructure);
 
         if (dataStructure instanceof ConnectionInfo) {
             String connectionId = ((ConnectionInfo) dataStructure).getConnectionId().toString();
@@ -48,17 +45,7 @@ public class AdviseConsumer {
                 device.setConnectionId(connectionId);
                 device.setIsOnline(true);
                 deviceRepository.save(device);
-                isLegalDevice = true;
                 logger.info("Device [" + username + "] connected with connectionId:" + connectionId);
-            } else {
-                if (isLocalConnection) {
-                    logger.info("Local device connected!");
-                } else {
-
-                    this.jmsTemplate.convertAndSend("DISCONNECTED", connectionId);
-                    System.out.println(connectionId);
-                    logger.warn("Illegal device want to connect without ID!");
-                }
             }
 
         } else if (dataStructure instanceof RemoveInfo && isLegalDevice) {
@@ -67,10 +54,7 @@ public class AdviseConsumer {
             device.setIsOnline(false);
             deviceRepository.save(device);
             logger.info("Device disconnected with connection-id:" + objectId);
-        }else {
-            logger.info("Illegal Device disconnected ");
         }
-
     }
 
 }
