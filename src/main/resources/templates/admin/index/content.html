@@ -7,7 +7,7 @@
             </div>
             <div class="widget-statistic-body">
                 <div class="widget-statistic-value">
-运行中
+                      运行中
                 </div>
 
             </div>
@@ -64,3 +64,19 @@
     </div>
 
 </div>
+
+<script >
+
+        $.ajax({
+            type:"GET",
+            url:"http://localhost:8161/api/jolokia/",
+            success:function(data){
+                console.log("success");
+
+            },
+            error: function(){
+                console.log("failed");
+            }
+        });
+
+</script>

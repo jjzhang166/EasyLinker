@@ -29,8 +29,8 @@ public class ActiveMQConfig {
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() throws Exception {
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(
-                DEFAULT_USER,
-                DEFAULT_PASSWORD,
+                null,
+                null,
                 BROKER_URL);
         activeMQConnectionFactory.setTransportListener(addActiveMqTransportListener());
         activeMQConnectionFactory.setWatchTopicAdvisories(true);
