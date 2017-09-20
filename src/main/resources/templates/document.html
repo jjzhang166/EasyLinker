@@ -1,157 +1,107 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8"/>
-    <title>Blog | Amaze UI Example</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1"/>
-    <meta name="format-detection" content="telephone=no"/>
-    <meta name="renderer" content="webkit"/>
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <link rel="alternate icon" type="image/png" href="assets/i/favicon.png"/>
-    <link rel="stylesheet" href="assets/css/amazeui.min.css"/>
-    <style>
-        @media only screen and (min-width: 1200px) {
-            .blog-g-fixed {
-                max-width: 1200px;
-            }
-        }
-
-        @media only screen and (min-width: 641px) {
-            .blog-sidebar {
-                font-size: 1.4rem;
-            }
-        }
-
-        .footer{
-            background-color: #1f2224;
-            height: 300px;
-        }
-        .footer p {
-            color: #7f8c8d;
-            padding-top: 15px;
-            text-align: center;
-
-        }
-
-        .blog-main {
-            padding: 20px 0;
-        }
-
-        .blog-title {
-            margin: 10px 0 20px 0;
-        }
-
-        .blog-meta {
-            font-size: 14px;
-            margin: 10px 0 20px 0;
-            color: #222;
-        }
-
-        .blog-meta a {
-            color: #27ae60;
-        }
-
-        .blog-pagination a {
-            font-size: 1.4rem;
-        }
-
-        .blog-team li {
-            padding: 4px;
-        }
-
-        .blog-team img {
-            margin-bottom: 0;
-        }
-
-        .blog-content img,
-        .blog-team img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .blog-footer {
-            padding: 10px 0;
-            text-align: center;
-        }
-    </style>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EasyLinker</title>
+    <meta name="description" content="EasyLinker"/>
+    <meta name="keywords" content="EasyLinker"/>
+    <meta name="author" content="EasyLinker"/>
+    <link rel="icon" type="image/png" href="new_index/favicons/favicon-16x16.png" sizes="16x16"/>
+    <link rel="stylesheet" href="new_index/css/bootstrap.css"/>
+    <link rel="stylesheet" href="new_index/fonts/font-awesome-4.3.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="new_index/css/all.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700|Source+Sans+Pro:400,700,400italic,700italic' rel='stylesheet' type='text/css'/>
 </head>
 <body>
-<header class="am-topbar am-topbar-fixed-top" th:include="include/index-document-header">
-
-</header>
-
-<div class="am-g am-g-fixed blog-g-fixed">
-    <div class="am-u-md-10">
-        <article class="blog-main">
-            <h1 class="am-article-title blog-title"  style="text-align: center">
-                EasyLinker开发文档
-            </h1>
-            <div class="am-g">
-                <div class="am-u-sm-12"  style="text-align: center">
-                    <h3>这是一个方便硬件开发者或者极客玩家对硬件进行网络数据传输的平台。</h3>
+<div id="wrapper">
+    <header id="header">
+        <div class="container">
+            <div class="logo"><a href="#"><img src="/new_index/images/logo.png" alt="Sports" width="70px"/></a></div>
+            <nav id="nav">
+                <div class="opener-holder">
+                    <a href="#" class="nav-opener"><span></span></a>
                 </div>
-            </div>
-            <div class="am-g blog-content">
-                <div class="am-panel am-panel-primary">
-                    <div class="am-panel-hd">目录</div>
+
+                <div class="nav-drop">
                     <ul>
-                        <a>
-                            <li>运行环境搭建</li>
-                        </a>
-                        <a>
-                            <li>ActiveMQ服务器配置</li>
-                        </a>
-
-                        <a>
-                            <li>注册账户</li>
-                        </a>
-                        <a>
-                            <li>查看APIKEY</li>
-                        </a>
-                        <a>
-                            <li>设备操作</li>
-                        </a>
-                        <a>
-                            <li>消息推送</li>
-                        </a>
-                        <a>
-                            <li>系统配置</li>
-                        </a>
-                        <a>
-                            <li>开发者</li>
-                        </a>
-
+                        <li class="active visible-sm visible-xs"><a href="#">Home</a></li>
+                        <li><a href="/">首页</a></li>
+                        <li><a href="/document">文档</a></li>
+                        <li><a href="/loginPage">登录</a></li>
+                        <li><a href="/signupPage">注册</a></li>
                     </ul>
+                    <div class="drop-holder visible-sm visible-xs">
+                        <span>Follow Us</span>
+                        <ul class="social-networks">
+                            <li><a class="fa fa-github" href="#"></a></li>
+                            <li><a class="fa fa-twitter" href="#"></a></li>
+                            <li><a class="fa fa-facebook" href="#"></a></li>
+                        </ul>
+                    </div>
                 </div>
-
+            </nav>
+        </div>
+    </header>
+    <section class="visual">
+        <div class="container">
+            <div class="text-block">
+                <div class="heading-holder">
+                    <h1>EasyLinker</h1>
+                </div>
+                <p class="tagline">使用文档</p>
 
             </div>
+        </div>
+        <img src="new_index/images/img-bg-01.jpg" alt="" class="bg-stretch"/>
+    </section>
+    <section class="main">
+        <div class="container">
+            <div id="cta">
+                <a href="javascript:" class="btn btn-primary rounded">开始了解</a>
+            </div>
+            <div class="row">
+                <div class="text-box col-md-offset-1 col-md-10">
 
-        </article>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
-        <hr class="am-article-divider blog-hr"/>
-    </div>
+    <footer id="footer" style="background-color:black;">
+        <div class="container">
+            <div class="footer-holder">
+                <div class="row  text-center">
+                    <div class="col-md-12">
+                        <a href="#"><img src="new_index/images/logo.png" alt="Sports HTML Template"/></a>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div id="cta" class="cta-footer">
+                        <a href="javascript:" class="btn btn-primary rounded">关注开源</a>
+                        <p>积极参加开源，为项目贡献力量，让更多人学习项目。</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>关于我们</h3>
+
+
+                        <p>	@EasyLinker Team</p>
+                        <p>	Email:751957846@qq.com</p>
+                        <p>	QQ群:475512169</p>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
-
-<footer class="footer">
-    <p>EasyLinker<br/>
-        <small>©By the EasyLinker Team.</small>
-    </p>
-</footer>
-
-<!--[if lt IE 9]>
-<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
-<![endif]-->
-
-<!--[if (gte IE 9)|!(IE)]><!-->
-<script src="assets/js/jquery.min.js"></script>
-<!--<![endif]-->
-<script src="assets/js/amazeui.min.js"></script>
-
+<script src="new_index/js/jquery-1.11.2.min.js"></script>
+<script src="new_index/js/bootstrap.js"></script>
+<script src="new_index/js/jquery.main.js"></script>
 </body>
 </html>
