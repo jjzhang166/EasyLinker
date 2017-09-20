@@ -76,13 +76,21 @@
 </div>
 <script>
     function retry_password() {
+        var username=document.getElementById("username").value;
+        var password=document.getElementById("password").value;
         var pw1 = document.getElementById("password").value;
         var pw2 = document.getElementById("password-retry").value;
-        if (pw1 != pw2) {
-            alert("两次密码不一样！");
-        } else {
-            document.getElementById("signup").submit();
+        if (username==""||password==""){
+            alert("用户名和密码为空！");
+        }else {
+            if (pw1 != pw2) {
+                alert("两次密码不一样！");
+            }else {
+                document.getElementById("signup").submit();
+                return true;
+            }
         }
+
     }
 </script>
 <script src="/assets/js/amazeui.min.js"></script>
