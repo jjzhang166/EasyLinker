@@ -18,6 +18,7 @@ import java.util.*;
 @Table(name = "appUser")
 public class AppUser extends BaseEntity implements UserDetails{
 
+    @Column(unique = true,nullable = false)
     private String username;
     private String password;
     private String email;

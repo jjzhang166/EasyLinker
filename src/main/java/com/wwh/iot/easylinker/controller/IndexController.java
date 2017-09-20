@@ -1,12 +1,14 @@
 package com.wwh.iot.easylinker.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.wwh.iot.easylinker.entity.AppUser;
+import com.wwh.iot.easylinker.repository.AppUserRepository;
 import com.wwh.iot.easylinker.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -20,6 +22,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/")
 public class IndexController {
+    @Autowired
+    AppUserRepository appUserRepository;
     @Autowired
     DeviceRepository deviceRepository;
     @RequestMapping("/")
@@ -53,4 +57,21 @@ public class IndexController {
         return "loginfailed";
     }
 
+    @RequestMapping("/ifUserExist")
+    @ResponseBody
+    public JSONObject ifUserExist(@RequestParam String username){
+        AppUser appUser=  appUserRepository.findTop1ByUsernameOrEmailOrPhone(username,username,username);
+        System.out.println(appUser);
+        if (appUser!=null){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("message", "用户已存在!");
+            jsonObject.put("state",1);
+            return jsonObject;
+        }else {
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("state",0);
+            return jsonObject;
+        }
+    }
 }

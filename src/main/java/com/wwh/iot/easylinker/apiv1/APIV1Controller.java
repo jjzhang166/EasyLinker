@@ -1,8 +1,10 @@
 package com.wwh.iot.easylinker.apiv1;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wwh.iot.easylinker.entity.AppUser;
 import com.wwh.iot.easylinker.entity.Device;
 import com.wwh.iot.easylinker.entity.data.TypeMediaData;
+import com.wwh.iot.easylinker.repository.AppUserRepository;
 import com.wwh.iot.easylinker.repository.DeviceRepository;
 import com.wwh.iot.easylinker.repository.TypeMediaDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import java.util.UUID;
 @RequestMapping("/apiv1")
 @RestController
 public class APIV1Controller {
+    @Autowired
+    AppUserRepository appUserRepository;
 
     @Autowired
     DeviceRepository deviceRepository;
@@ -93,4 +97,5 @@ public class APIV1Controller {
             return jsonObject;
         }
     }
+
 }

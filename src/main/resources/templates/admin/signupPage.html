@@ -63,34 +63,39 @@
     </div>
 </div>
 
-<div class="am-modal am-modal-alert" tabindex="-1" id="password_retry_alert">
-    <div class="am-modal-dialog">
-        <div class="am-modal-hd">密码输入错误！</div>
-        <div class="am-modal-bd">
-            两次密码输入不一样！
-        </div>
-        <div class="am-modal-footer">
-            <span class="am-modal-btn">确定</span>
-        </div>
-    </div>
-</div>
 <script>
+
     function retry_password() {
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
+        var phone =document.getElementById("phone").value;
         var pw1 = document.getElementById("password").value;
         var pw2 = document.getElementById("password-retry").value;
-        if (username==""||password==""){
-            alert("用户名和密码为空！");
+        if (username==""||password==""||phone==""){
+            alert("用户名或者密码、电话为空！");
         }else {
-            if (pw1 != pw2) {
-                alert("两次密码不一样！");
-            }else {
-                document.getElementById("signup").submit();
-                return true;
-            }
+            $.ajax({
+                type: "POST",
+                url: "/ifUserExist",
+                data: {"username": username},
+                datatype: "json",
+                success: function (data) {
+                    console.log(data.state)
+                    if (data.state == "0") {
+                        console.log(data.message);
+                        if (pw1 != pw2) {
+                            alert("两次密码不一样！");
+                        } else {
+                            document.getElementById("signup").submit();
+                            return true;
+                        }
+                    }
+                    else if (data.state == "1") {
+                        alert(data.message);
+                    }
+                }
+            });
         }
-
     }
 </script>
 <script src="/assets/js/amazeui.min.js"></script>

@@ -34,7 +34,7 @@ public class ActiveMQConfig {
                 BROKER_URL);
         activeMQConnectionFactory.setTransportListener(addActiveMqTransportListener());
         activeMQConnectionFactory.setWatchTopicAdvisories(true);
-        activeMQConnectionFactory.setExceptionListener(addActiveMQExceptionListener());
+        //activeMQConnectionFactory.setExceptionListener(addActiveMQExceptionListener());
 
         return activeMQConnectionFactory;
     }

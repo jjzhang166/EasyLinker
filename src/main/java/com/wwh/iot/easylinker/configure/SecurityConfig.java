@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(  "/user/signup","/document","/index","/signupPage","/loginFailed","/device/*","/apiv1/*").permitAll();
+        http.authorizeRequests().antMatchers(  "/user/signup","/document","/index","/signupPage","/loginFailed","/device/*","/apiv1/*","/ifUserExist").permitAll();
         http.authorizeRequests().anyRequest().authenticated()
                 .and().formLogin().loginPage("/user/login")
                 .successHandler(new LoginSuccessHandler())
