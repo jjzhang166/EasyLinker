@@ -16,38 +16,39 @@
     <div class="tpl-login">
 
         <div class="tpl-login-content">
-            <div style="width: 100%;text-align: center">
+            <div style="width: 100%;text-align: center;padding-top: 4px;margin-top: 4px">
                 <img src="/images/logo.png"
-                     style="width: 100px;margin-right: auto;margin-left: auto;margin-bottom: 70px"/>
+                     style="width: 100px;margin-right: auto;margin-left: auto;margin-bottom: 10px;margin-top: 10px"/>
+                <div class="tpl-login-title">注册用户</div>
             </div>
-            <div class="tpl-login-title">注册用户</div>
+
             <span class="tpl-login-content-info">
                   创建一个新的用户-|-或者<span><a th:href="@{/index}">[返回首页]</a></span>
               </span>
 
             <form class="am-form tpl-form-line-form" action="/user/signup" method="post" id="signup">
                 <div class="am-form-group">
-                    <input type="text" class="tpl-form-input" id="username" name="username" placeholder="用户名"
+                    <span style="color: #FFFFFF">用户名:</span><input type="text" class="tpl-form-input" id="username" name="username" placeholder="用户名"
                            required="required"/>
                 </div>
 
                 <div class="am-form-group">
-                    <input type="text" class="tpl-form-input" id="phone" name="phone" placeholder="电话"
+                    <span style="color: #FFFFFF">电话:</span><input type="text" class="tpl-form-input" id="phone" name="phone" placeholder="电话"
                            required="required"/>
                 </div>
 
                 <div class="am-form-group">
-                    <input type="text" class="tpl-form-input" name="email" id="email" placeholder="邮箱"
+                    <span style="color: #FFFFFF">邮箱:</span><input type="email" class="tpl-form-input" name="email" id="email" placeholder="邮箱"
                            required="required"/>
                 </div>
 
                 <div class="am-form-group">
-                    <input type="password" class="tpl-form-input" name="password" id="password" placeholder="密码"
+                    <span style="color: #FFFFFF">密码:</span><input type="password" class="tpl-form-input" name="password" id="password" placeholder="密码"
                            required="required"/>
                 </div>
 
                 <div class="am-form-group">
-                    <input type="password" class="tpl-form-input" id="password-retry" placeholder="再次输入密码"
+                    <span style="color: #FFFFFF">重复密码:</span><input type="password" class="tpl-form-input" id="password-retry" placeholder="再次输入密码"
                            required="required"/>
                 </div>
                 <div class="am-form-group">
