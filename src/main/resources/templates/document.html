@@ -1,5 +1,5 @@
     <!DOCTYPE html>
-    <html xmlns:th="http://www.thymeleaf.org">
+    <html >
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -16,11 +16,17 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     </head>
     <style>
-        ul pre{
+        pre{
             background-color: #1f2224;
             color: #FFFFFF;
             margin: auto;
             padding: auto
+        }
+        li{
+            list-style-type:none;
+            color: #03a9f3;
+            padding: 4px;
+            margin: 2px;
         }
     </style>
     <body>
@@ -41,14 +47,7 @@
                             <li><a href="/loginPage">登录</a></li>
                             <li><a href="/signupPage">注册</a></li>
                         </ul>
-                        <div class="drop-holder visible-sm visible-xs">
-                            <span>Follow Us</span>
-                            <ul class="social-networks">
-                                <li><a class="fa fa-github" href="#"></a></li>
-                                <li><a class="fa fa-twitter" href="#"></a></li>
-                                <li><a class="fa fa-facebook" href="#"></a></li>
-                            </ul>
-                        </div>
+
                     </div>
                 </nav>
             </div>
@@ -60,6 +59,8 @@
                         <h1>EasyLinker</h1>
                     </div>
                     <p class="tagline">使用文档</p>
+                    <p>项目中会用到一些库，请到相关的网站进行下载</p>
+                    <p>以下是SDK开源代码，如果你不需要，可以直接获取SDK包。</p>
 
                 </div>
             </div>
@@ -72,10 +73,10 @@
                 </div>
                 <div class="row">
                     <div class="text-box col-md-offset-1 col-md-10">
-                        <ul style="margin: auto;padding-left: 8px;padding-right:8px;background-color: #2f3638;color: #FFFFFF;text-align: left;width: 100%">
+                        <ul style="padding-left: 8px;padding-right:8px;background-color: #2f3638;color: #FFFFFF;text-align: left;width: 100%">
                             <li>Python 客户端接入</li>
 
-                            <pre style="background-color: #1f2224;color: #FFFFFF;margin: auto;padding: auto">
+                            <pre >
                                 <code class="python">
     # -*- coding: utf-8 -*-
 
@@ -133,6 +134,65 @@
                             <li>Ardiuno客户端接入</li>
                             <pre>
                                 <code>
+#include <SPI.h>
+#include <Ethernet.h>
+#include <PubSubClient.h>
+byte mac[]    = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
+IPAddress server(192, 168, 199, 107);
+EthernetClient ethClient;
+PubSubClient client(ethClient);
+int LED_GPIO = 5;
+String deviceId="c56ff6d3-541d-4862-b3db-a26f44c921d2";
+String topic="device";
+char * id="device/c56ff6d3-541d-4862-b3db-a26f44c921d2";
+void onMessageReceived(char* topic, byte* payload, unsigned int length) {
+  String message = "";
+  for (int i = 0; i < length; i++) {
+    message += (char)payload[i];
+  }
+   Serial.println(message);
+
+  if (message == "ON") {
+    digitalWrite(LED_GPIO, HIGH);
+  } else if (message == "OFF") {
+    digitalWrite(LED_GPIO, LOW);
+  }
+
+}
+
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.println("Connection interrupted!Attempting MQTT resume...");
+    if (client.connect("arduinoClient-c56ff6d3-541d-4862-b3db-a26f44c921d2")) {
+      client.subscribe("device/c56ff6d3-541d-4862-b3db-a26f44c921d2");
+    } else {
+      delay(2000);
+    }
+  }
+}
+
+void setup()
+{
+  Serial.begin(57600);
+  pinMode(LED_GPIO, OUTPUT);
+  Serial.println("Start device...");
+  client.setServer(server, 1883);
+  client.setCallback(onMessageReceived);
+  Ethernet.begin(mac);
+  client.connect("arduinoClient-c56ff6d3-541d-4862-b3db-a26f44c921d2");
+  client.subscribe("device/c56ff6d3-541d-4862-b3db-a26f44c921d2");
+  Serial.println("Start device finished.");
+  delay(1500);
+}
+
+void loop()
+{
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+}
 
                                 </code>
                             </pre>
@@ -142,9 +202,61 @@
 
                                 </code>
                             </pre>
-                            <li>C++客户端接入</li>
+                            <li>C++客户端接入(windows demo)</li>
                             <pre>
                                 <code>
+#include "stdafx.h"
+#include "mosquitto.h"
+#include "mosquittopp.h"
+#include <iostream>
+#include <string>
+using namespace std;
+/*
+virtual void on_connect(int rc) {return;};
+virtual void on_disconnect(int rc) {return;};
+virtual void on_publish(int mid) {return;};
+virtual void on_message(const struct mosquitto_message *message) {return;};
+virtual void on_subscribe(int mid, int qos_count, const int *granted_qos) {return;};
+virtual void on_unsubscribe(int mid) {return;};
+virtual void on_log(int level, const char *str) {return;};
+virtual void on_error() {return;};
+*/
+class MQttClient :public mosqpp::mosquittopp {
+public:
+	int mid = 1;
+	MQttClient(const char* id) :mosquittopp(id) {
+		std::cout << "MQttClient:[" << id << "]" << endl;
+	}
+	void on_connect(int rc) {
+		this->subscribe(&mid, "device");
+
+		std::cout << "MQttClient  connected success with rc :" << rc << endl;
+	};
+	void on_subscribe(int mid, int qos_count, const int *granted_qos) {
+		std::cout << "MQttClient  subscribe success" << endl;
+	};
+	void on_message(const struct mosquitto_message *message) {
+
+		std::string receiveMessage = (char *)message->payload;
+		std::cout << "来自<" << message->topic << ">的消息：" << receiveMessage << std::endl;
+	};
+	void on_disconnect() {
+		std::cout << "MQttClient  disconnect!" << endl;
+	};
+	void on_error() {
+		std::cout << "MQttClient  error" << endl;
+	}
+};
+int main(int argc, char** argv)
+{
+	mosqpp::lib_init();
+	MQttClient client("client");
+
+	client.connect("127.0.0.1", 1884);
+	client.loop_forever(100);
+	system("pause");
+	return 0;
+}
 
                                 </code>
                             </pre>

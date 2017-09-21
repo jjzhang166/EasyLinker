@@ -26,22 +26,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableJms
 public class EasylinkerApplication implements CommandLineRunner {
     Logger logger = LoggerFactory.getLogger(EasylinkerApplication.class);
-    @Autowired
-    AppUserRepository appUserRepository;
+
 
     @Override
 
     public void run(String... strings) throws Exception {
-        if (appUserRepository.findAll().size() == 0) {
-            logger.info("create default user account >>username :username,password :password");
-            logger.info("You can modify you account in manager system");
-            AppUser appUser = new AppUser();
-            appUser.setUsername("username");
-            appUser.setPassword("password");
-            appUser.setEmail("user@user.com");
-            appUserRepository.save(appUser);
 
-        }
     }
 
 
