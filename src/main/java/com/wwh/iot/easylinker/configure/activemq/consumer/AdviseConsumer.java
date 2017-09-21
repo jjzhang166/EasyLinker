@@ -26,21 +26,13 @@ public class AdviseConsumer {
 
     @Autowired
     private JmsTemplate jmsTemplate;
-
     @JmsListener(destination = "ActiveMQ.Advisory.Connection.>")
     public void onConnection(ActiveMQMessage connectionMessage) throws Exception {
-        boolean isLegalDevice = false;//默认没有连接
-        boolean isLocalConnection = false;
         DataStructure dataStructure = connectionMessage.getDataStructure();
 
         if (dataStructure instanceof ConnectionInfo) {
             String connectionId = ((ConnectionInfo) dataStructure).getConnectionId().toString();
             String username = (((ConnectionInfo) dataStructure).getUserName());
-            String clientIp = ((ConnectionInfo) dataStructure).getClientIp().toString();
-            if (clientIp.startsWith("tcp://127.0.0.1")) {
-                isLocalConnection = true;
-            }
-
             if ((username != null) && ((device = deviceRepository.findOne(username)) != null)) {
                 device.setConnectionId(connectionId);
                 device.setIsOnline(true);
@@ -48,7 +40,7 @@ public class AdviseConsumer {
                 logger.info("Device [" + username + "] connected with connectionId:" + connectionId);
             }
 
-        } else if (dataStructure instanceof RemoveInfo && isLegalDevice) {
+        } else if (dataStructure instanceof RemoveInfo) {
             String objectId = ((RemoveInfo) dataStructure).getObjectId().toString();
             Device device = deviceRepository.findByConnectionId(objectId);
             device.setIsOnline(false);
