@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.cache.EhCacheBasedUserCache;
 
 /**
  * 安全机制配置入口
@@ -66,4 +67,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AppUserDetailService customUserDetailsService() {
         return new AppUserDetailService();
     }
+
+    /**
+     * <bean id="userCache"
+     class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache"
+     autowire="byName">
+     <property name="cache" ref="userCacheBackend"/>
+     </bean>
+     * @return
+     */
+
+
 }

@@ -1,4 +1,4 @@
-<div class="row-content am-cf" xmlns:th="http://www.w3.org/1999/xhtml">
+<div class="row-content am-cf">
     <div class="row">
         <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
             <div class="widget am-cf">
@@ -51,7 +51,7 @@
                                            class="am-btn am-btn-secondary">数据</a>
                                         <a type="button" style="color: #FFFFFF" href="/admin/addDevice"
                                            class="am-btn am-btn-success">编辑</a>
-                                        <a type="button" style="color: #FFFFFF" href="/admin/deleteDevice"
+                                        <a type="button" style="color: #FFFFFF" th:href="|/admin/deleteDevice?deviceId=${device.id}|"
                                            class="am-btn am-btn-warning">删除</a>
 
                                     </div>

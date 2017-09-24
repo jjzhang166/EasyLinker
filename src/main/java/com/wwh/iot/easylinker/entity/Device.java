@@ -20,12 +20,37 @@ public class Device extends BaseEntity {
     private String name;
     @Enumerated(EnumType.STRING)
     private DeviceType type;
+    private String deviceDroup="默认组";
     private String connectionId="default-connection-id";
     private String serialNumber = UUID.randomUUID().toString();
     private String deviceDescribe;
     @ManyToOne(cascade = CascadeType.ALL,optional = true)
     private AppUser appUser;
     private Boolean isOnline=false;
+
+    public void setDeviceDroup(String deviceDroup) {
+        this.deviceDroup = deviceDroup;
+    }
+
+    public String getDeviceDroup() {
+        return deviceDroup;
+    }
+
+    public Boolean getOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(Boolean online) {
+        isOnline = online;
+    }
+
+    public List<TypeMediaData> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<TypeMediaData> dataList) {
+        this.dataList = dataList;
+    }
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
     private List<TypeMediaData> dataList;

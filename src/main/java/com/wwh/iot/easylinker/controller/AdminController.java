@@ -113,16 +113,19 @@ public class AdminController {
         return "redirect:/admin/addDevice";
     }
 
-
     @RequestMapping("/sysConfig")
     public String sysConfig() {
         return "admin/sysConfig";
     }
 
-    @RequestMapping("/config")
-    public String config() {
-        return "admin/sysConfig";
+    @Transactional
+    @RequestMapping("/deleteDevice")
+    public String deleteDevice(@RequestParam String deviceId) {
+        deviceRepository.delete(deviceId);
+        deviceRepository.flush();
+        return "admin/devices";
     }
+
 
 
     @RequestMapping("/deviceDetail")
@@ -138,42 +141,5 @@ public class AdminController {
         return activeMQMessageProducer.pushMessage(deviceId, message);
     }
 
-    public static String getAmqInfo( ) {
-        String result = "";
-        BufferedReader in = null;
-        try {
-            URL realUrl = new URL("http://localhost:8161/api/jolokia/");
-            URLConnection connection = realUrl.openConnection();
-            connection.setRequestProperty("Host", "localhost:8161");
-            connection.setRequestProperty("Upgrade-Insecure-Requests", "1");
-            connection.setRequestProperty("Authorization", "zh-CN,zh;q=0.8");
-            connection.setRequestProperty("Cookie", "__guid=111872281.2471030250585868000.1505646477331.2568; JSESSIONID=D456C5953729966F5F3F74ADDE296094; monitor_count=104");
-            connection.setRequestProperty("Accept-Encoding", "deflate, sdch, br");
-            connection.setRequestProperty("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-            connection.setRequestProperty("connection", "Keep-Alive");
-            connection.setRequestProperty("user-agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            connection.connect();
-            in = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
-            String line;
-            while ((line = in.readLine()) != null) {
-                result += line;
-            }
-        } catch (Exception e) {
-            System.out.println("发送GET请求出现异常！" + e);
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-        return result;
-    }
 
 }
