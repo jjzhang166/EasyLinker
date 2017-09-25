@@ -4,6 +4,7 @@ import com.wwh.iot.easylinker.constants.DeviceType;
 import com.wwh.iot.easylinker.entity.data.TypeMediaData;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,20 +21,25 @@ public class Device extends BaseEntity {
     private String name;
     @Enumerated(EnumType.STRING)
     private DeviceType type;
-    private String deviceDroup="默认组";
+    private String deviceGroup="默认组";
     private String connectionId="default-connection-id";
     private String serialNumber = UUID.randomUUID().toString();
     private String deviceDescribe;
-    @ManyToOne(cascade = CascadeType.ALL,optional = true)
+    @ManyToOne
     private AppUser appUser;
     private Boolean isOnline=false;
 
-    public void setDeviceDroup(String deviceDroup) {
-        this.deviceDroup = deviceDroup;
+    @Override
+    public void setCreateTime(Date createTime) {
+        super.setCreateTime(createTime);
     }
 
-    public String getDeviceDroup() {
-        return deviceDroup;
+    public void setDeviceGroup(String deviceGroup) {
+        this.deviceGroup = deviceGroup;
+    }
+
+    public String getDeviceGroup() {
+        return deviceGroup;
     }
 
     public Boolean getOnline() {

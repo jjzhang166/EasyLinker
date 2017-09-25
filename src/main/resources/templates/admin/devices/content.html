@@ -25,6 +25,7 @@
                                 <th>ID</th>
                                 <th>名称</th>
                                 <th>状态</th>
+                                <th>组</th>
                                 <th>备注</th>
                                 <th>类型</th>
                                 <th>操作</th>
@@ -40,6 +41,7 @@
                                 </td>
                                 <td th:if="${device.isOnline==false}"><span class="am-badge am-badge-danger">离线</span>
                                 </td>
+                                <td th:text="${device.deviceGroup}"></td>
                                 <td th:text="${device.deviceDescribe}"></td>
 
                                 <td th:text="${device.type}"></td>
@@ -51,7 +53,7 @@
                                            class="am-btn am-btn-secondary">数据</a>
                                         <a type="button" style="color: #FFFFFF" href="/admin/addDevice"
                                            class="am-btn am-btn-success">编辑</a>
-                                        <a type="button" style="color: #FFFFFF" th:href="|/admin/deleteDevice?deviceId=${device.id}|"
+                                        <a type="button" th:name="${device.id}"  style="color: #FFFFFF" onclick="deleteDevice(this)"
                                            class="am-btn am-btn-warning">删除</a>
 
                                     </div>
@@ -60,10 +62,6 @@
                             </tbody>
                         </table>
                         <div>
-                            <ul class="am-pagination">
-                                <li th:if="${devicePage.number}==${devicePage.TotalPages}">上一页</li>
-                                <li th:if="${devicePage.number} le ${devicePage.TotalPages}">下一页</li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -72,3 +70,17 @@
     </div>
 </div>
 
+<script type="application/javascript">
+    function deleteDevice(obj) {
+        $.post("/admin/deleteDevice", {
+            deviceId:obj.name
+        }, function (data, status) {
+            if (data.state=="1"){
+                alert("删除成功！");
+                location.reload();
+            }
+
+        });
+    }
+
+</script>

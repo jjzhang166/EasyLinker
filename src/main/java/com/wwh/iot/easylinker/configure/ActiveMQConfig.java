@@ -33,8 +33,8 @@ public class ActiveMQConfig {
                 null,
                 BROKER_URL);
         activeMQConnectionFactory.setTransportListener(addActiveMqTransportListener());
-        activeMQConnectionFactory.setWatchTopicAdvisories(true);
-        //activeMQConnectionFactory.setExceptionListener(addActiveMQExceptionListener());
+        //activeMQConnectionFactory.setWatchTopicAdvisories(true);
+        activeMQConnectionFactory.setExceptionListener(addActiveMQExceptionListener());
 
         return activeMQConnectionFactory;
     }

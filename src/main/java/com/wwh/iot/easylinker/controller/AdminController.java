@@ -98,12 +98,12 @@ public class AdminController {
     }
 
     @RequestMapping("/add")
-    public String add(RedirectAttributes redirectAttributes, @RequestParam String name, @RequestParam DeviceType type, @RequestParam String describe) {
+    public String add(RedirectAttributes redirectAttributes, @RequestParam String name, @RequestParam DeviceType type, @RequestParam String describe,@RequestParam String deviceGroup) {
         AppUser user = (AppUser) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
         Device device = new Device();
-
+        device.setDeviceGroup(deviceGroup);
         device.setAppUser(user);
         device.setName(name);
         device.setDeviceDescribe(describe);
@@ -118,12 +118,14 @@ public class AdminController {
         return "admin/sysConfig";
     }
 
-    @Transactional
+    @ResponseBody
     @RequestMapping("/deleteDevice")
-    public String deleteDevice(@RequestParam String deviceId) {
+    public JSONObject deleteDevice(@RequestParam String deviceId) {
+        JSONObject jsonObject=new JSONObject();
         deviceRepository.delete(deviceId);
-        deviceRepository.flush();
-        return "admin/devices";
+        jsonObject.put("state",1);
+        jsonObject.put("message",SystemMessage.OPERATE_SUCCESS.toString());
+        return jsonObject;
     }
 
 

@@ -23,6 +23,7 @@ public class AdviseConsumer {
     @Autowired
     DeviceRepository deviceRepository;
     Device device = null;
+    private boolean isLocalDevice=false;
 
     @Autowired
     private JmsTemplate jmsTemplate;
@@ -33,6 +34,9 @@ public class AdviseConsumer {
         if (dataStructure instanceof ConnectionInfo) {
             String connectionId = ((ConnectionInfo) dataStructure).getConnectionId().toString();
             String username = (((ConnectionInfo) dataStructure).getUserName());
+            if (((ConnectionInfo) dataStructure).getClientIp().startsWith("tcp://127")) {
+                isLocalDevice = true;
+            }
             if ((username != null) && ((device = deviceRepository.findOne(username)) != null)) {
                 device.setConnectionId(connectionId);
                 device.setIsOnline(true);
@@ -40,13 +44,19 @@ public class AdviseConsumer {
                 logger.info("Device [" + username + "] connected with connectionId:" + connectionId);
             }
 
-        } else if (dataStructure instanceof RemoveInfo) {
+        } else if (dataStructure instanceof RemoveInfo && (((RemoveInfo) dataStructure).getObjectId().toString() != null)) {
+
             String objectId = ((RemoveInfo) dataStructure).getObjectId().toString();
-            Device device = deviceRepository.findByConnectionId(objectId);
-            device.setIsOnline(false);
-            deviceRepository.save(device);
-            logger.info("Device disconnected with connection-id:" + objectId);
+            if (!isLocalDevice) {
+                if (objectId != null) {
+                    Device device = deviceRepository.findByConnectionId(objectId);
+                    if (device != null) {
+                        device.setIsOnline(false);
+                        deviceRepository.save(device);
+                        logger.info("Device disconnected with connection-id:" + objectId);
+                    }
+                }
+            }
         }
     }
-
 }
