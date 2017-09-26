@@ -17,17 +17,17 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class TypeMediaData extends BaseEntity{
-    private String path;
-    private String name;
-    @ManyToOne(cascade = CascadeType.ALL,optional = true)
+    @ManyToOne
     private Device device;
+    private String value;
+    private String name;
 
-    public String getPath() {
-        return path;
+    public String getValue() {
+        return value;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public void setName(String name) {

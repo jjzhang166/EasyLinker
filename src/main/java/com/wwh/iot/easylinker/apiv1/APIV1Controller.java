@@ -1,12 +1,17 @@
 package com.wwh.iot.easylinker.apiv1;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wwh.iot.easylinker.constants.DeviceType;
+import com.wwh.iot.easylinker.constants.SystemMessage;
 import com.wwh.iot.easylinker.entity.AppUser;
 import com.wwh.iot.easylinker.entity.Device;
 import com.wwh.iot.easylinker.entity.data.TypeMediaData;
+import com.wwh.iot.easylinker.entity.data.TypeValueData;
 import com.wwh.iot.easylinker.repository.AppUserRepository;
 import com.wwh.iot.easylinker.repository.DeviceRepository;
 import com.wwh.iot.easylinker.repository.TypeMediaDataRepository;
+import com.wwh.iot.easylinker.repository.TypeValueDataRepository;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,10 +27,13 @@ import java.util.UUID;
  */
 @RequestMapping("/apiv1")
 @RestController
+@Api
 public class APIV1Controller {
     @Autowired
     AppUserRepository appUserRepository;
 
+    @Autowired
+    TypeValueDataRepository typeValueDataRepository;
     @Autowired
     DeviceRepository deviceRepository;
 
@@ -44,11 +52,47 @@ public class APIV1Controller {
     }
 
 
-    @RequestMapping("/sendMessage")
-    public JSONObject sendMessage(@RequestParam String deviceId, @RequestParam(defaultValue = "hello") String message) {
+    @RequestMapping("/sendMessageToDevice")
+    public JSONObject sendMessageToDevice(@RequestParam String deviceId, @RequestParam(defaultValue = "hello") String message) {
         return messageSender.pushMessage(deviceId, message);
 
     }
+    @RequestMapping("/sendMessageToServer")
+    public JSONObject sendMessageToServer(@RequestParam String deviceId, @RequestParam(defaultValue = "hello") String message) {
+        Device device=deviceRepository.findOne(deviceId);
+        JSONObject resultJson=new JSONObject();
+        if (device!=null){
+            DeviceType type=device.getType();
+            switch (type){
+                case TYPE_MEDIA:
+                    TypeMediaData typeMediaData=new TypeMediaData();
+                    typeMediaData.setDevice(device);
+                    typeMediaData.setValue(message);
+                    typeMediaData.setName(device.getName());
+                    typeMediaDataRepository.save(typeMediaData);
+                    break;
+
+                case TYPE_VALUE:
+                    TypeValueData typeValueData=new TypeValueData();
+                    typeValueData.setValue(message);
+                    typeValueData.setDevice(device);
+                    typeValueData.setName(device.getName());
+                    typeValueDataRepository.save(typeValueData);
+
+                default:break;
+            }
+            resultJson.put("state",1);
+            resultJson.put("message", SystemMessage.OPERATE_SUCCESS.toString());
+        }else {
+            resultJson.put("state",0);
+            resultJson.put("message", SystemMessage.OPERATE_FAILED.toString());
+        }
+
+        return resultJson;
+
+    }
+
+
 
     @RequestMapping("/uploadMediaMessage")
     public JSONObject uploadMediaMessage(@RequestParam String deviceId,  @RequestParam MultipartFile multipartFile) throws IOException {
@@ -65,7 +109,6 @@ public class APIV1Controller {
         String newFileName = UUID.randomUUID() + suffixName;
         File newFile = new File(newFilePath + newFileName);
         if (!newFile.exists()) {
-            System.out.println("文件不存在");
             newFile.createNewFile();
         }
 
@@ -77,7 +120,7 @@ public class APIV1Controller {
             return jsonObject;
         }
         TypeMediaData typeMediaData = new TypeMediaData();
-        typeMediaData.setPath(newFileName);
+        typeMediaData.setValue(newFileName);
         typeMediaData.setDevice(device);
         typeMediaData.setName(originalFilename);
         typeMediaDataRepository.save(typeMediaData);

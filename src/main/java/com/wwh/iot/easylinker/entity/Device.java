@@ -2,6 +2,7 @@ package com.wwh.iot.easylinker.entity;
 
 import com.wwh.iot.easylinker.constants.DeviceType;
 import com.wwh.iot.easylinker.entity.data.TypeMediaData;
+import com.wwh.iot.easylinker.entity.data.TypeValueData;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -28,6 +29,13 @@ public class Device extends BaseEntity {
     @ManyToOne
     private AppUser appUser;
     private Boolean isOnline=false;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
+    List<TypeValueData>typeValueDataList;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
+    List<TypeMediaData>typeMediaDataList;
+
 
     @Override
     public void setCreateTime(Date createTime) {
