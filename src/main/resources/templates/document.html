@@ -1,82 +1,173 @@
-    <!DOCTYPE html>
-    <html >
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>EasyLinker</title>
-        <meta name="description" content="EasyLinker"/>
-        <meta name="keywords" content="EasyLinker"/>
-        <meta name="author" content="EasyLinker"/>
-        <link rel="icon" type="image/png" href="new_index/favicons/favicon-16x16.png" sizes="16x16"/>
-        <link rel="stylesheet" href="new_index/css/bootstrap.css"/>
-        <link rel="stylesheet" href="new_index/fonts/font-awesome-4.3.0/css/font-awesome.min.css"/>
-        <link rel="stylesheet" href="new_index/css/all.css"/>
-        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700|Source+Sans+Pro:400,700,400italic,700italic' rel='stylesheet' type='text/css'/>
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    </head>
-    <style>
-        pre{
-            background-color: #1f2224;
-            color: #FFFFFF;
-            margin: auto;
-            padding: auto
-        }
-        li{
-            list-style-type:none;
-            color: #03a9f3;
-            padding: 4px;
-            margin: 2px;
-        }
-    </style>
-    <body>
-    <div id="wrapper">
-        <header id="header">
-            <div class="container">
-                <div class="logo"><a href="#"><img src="/new_index/images/logo.png" alt="Sports" width="70px"/></a></div>
-                <nav id="nav">
-                    <div class="opener-holder">
-                        <a href="#" class="nav-opener"><span></span></a>
-                    </div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EasyLinker</title>
+    <meta name="description" content="EasyLinker"/>
+    <meta name="keywords" content="EasyLinker"/>
+    <meta name="author" content="EasyLinker"/>
+    <link rel="icon" type="image/png" href="new_index/favicons/favicon-16x16.png" sizes="16x16"/>
+    <link rel="stylesheet" href="new_index/css/bootstrap.css"/>
+    <link rel="stylesheet" href="new_index/fonts/font-awesome-4.3.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="new_index/css/all.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700|Source+Sans+Pro:400,700,400italic,700italic'
+          rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+</head>
+<style>
+    pre {
+        background-color: #1f2224;
+        color: #FFFFFF;
+        margin-top: 0px;
+        padding: auto;
+    }
 
-                    <div class="nav-drop">
-                        <ul>
-                            <li class="active visible-sm visible-xs"><a href="#">Home</a></li>
-                            <li><a href="/">首页</a></li>
-                            <li><a href="/document">文档</a></li>
-                            <li><a href="/loginPage">登录</a></li>
-                            <li><a href="/signupPage">注册</a></li>
-                        </ul>
+    section p {
+        color: #FFFFFF;
 
-                    </div>
-                </nav>
-            </div>
-        </header>
-        <section class="visual">
-            <div class="container">
-                <div class="text-block">
-                    <div class="heading-holder">
-                        <h1>EasyLinker</h1>
-                    </div>
-                    <p class="tagline">使用文档</p>
-                    <p>项目中会用到一些库，请到相关的网站进行下载</p>
-                    <p>以下是SDK开源代码，如果你不需要，可以直接获取SDK包。</p>
+    }
+
+    pre {
+        width: auto;
+        border: solid #0f9ae0;
+    }
+
+    .title-label {
+        color: #03a9f3;
+        width: 100px;
+        height: 40px;
+        background-color: #1f2224;
+        border: solid #94df94;
+    }
+    .download{
+        background-color: #167fa1;
+        width: auto;
+        margin-bottom: 10px;
+        font-size: large;
+        border: solid #1f2224;
+        padding: 4px;
+       // border-radius: 10px 15px 20px 30px / 20px 30px 10px 15px;
+    }
+
+    ul li {
+        list-style-type: none;
+        color: #03a9f3;
+        padding: 4px;
+        margin: 2px;
+    }
+</style>
+<body>
+<div id="wrapper">
+    <header id="header">
+        <div class="container">
+            <div class="logo"><a href="#"><img src="/new_index/images/logo.png" alt="Sports" width="70px"/></a></div>
+            <nav id="nav">
+                <div class="opener-holder">
+                    <a href="#" class="nav-opener"><span></span></a>
+                </div>
+
+                <div class="nav-drop">
+                    <ul>
+                        <li class="active visible-sm visible-xs"><a href="#">Home</a></li>
+                        <li><a href="/">首页</a></li>
+                        <li><a href="/document">文档</a></li>
+                        <li><a href="/loginPage">登录</a></li>
+                        <li><a href="/signupPage">注册</a></li>
+                    </ul>
 
                 </div>
-            </div>
-            <img src="new_index/images/img-bg-01.jpg" alt="" class="bg-stretch"/>
-        </section>
-        <section class="main">
-            <div class="container">
-                <div id="cta">
-                    <a href="javascript:" class="btn btn-primary rounded">开始了解</a>
+            </nav>
+        </div>
+    </header>
+    <section class="visual">
+        <div class="container">
+            <div class="text-block">
+                <div class="heading-holder">
+                    <h1>EasyLinker</h1>
                 </div>
-                <div class="row">
-                    <div class="text-box col-md-offset-1 col-md-10">
-                        <ul style="padding-left: 8px;padding-right:8px;background-color: #2f3638;color: #FFFFFF;text-align: left;width: 100%">
-                            <li>Python 客户端接入</li>
+                <p class="tagline">使用文档</p>
+                <p>项目中会用到一些库，请到相关的网站进行下载</p>
 
-                            <pre >
+
+            </div>
+        </div>
+        <img src="new_index/images/img-bg-01.jpg" alt="" class="bg-stretch"/>
+    </section>
+
+
+    <section class="main">
+        <div class="container" style="border: solid;background-color: #2f3638;border-radius: 10px 15px 20px 30px / 20px 30px 10px 15px;">
+            <div id="cta">
+                <a class="btn btn-primary  title-label">开始了解</a>
+            </div>
+
+            <div class="row" style="text-align: left">
+                <h1>1.什么是EasyLinker</h1>
+                <div class="text-box col-md-offset-1 col-md-10" style="text-align: left">
+                    <p>EasyLinker是一个通用的、高度抽象了通信过程的云端平台。你可以很方便的使用EasyLinker构建你自己的通信网络。
+                        云端平台最初的设计是为了解决硬件玩家和学习者的一些苦恼。假设你现在有一个设备，比如51单片机，你读取到了温度，湿度等一系列的数据，但是你想把这些数据进行上传网络存储，或者可视化分析，这时就变得很难了，应为你可能很会玩硬件，但是到通信的时候，你就开始犯愁了。
+                        而EasyLinker的出现，就会解放硬件玩家的双手，让数据传输不再难，轻松的构建自己的设备通信网络。
+                    </p>
+                </div>
+            </div>
+
+            <div class="row" style="text-align: left">
+                <h1>2.EasyLinker基础架构图</h1>
+                <div class="text-box col-md-offset-1 col-md-10" style="text-align: left">
+                    <p>基本流程：设备连接到服务器以后，可以多种方式进行通信，最后在云端统一管理和监控。</p>
+                    <img src="/images/struct.png" width="auto"/>
+                </div>
+            </div>
+
+            <div class="row" style="text-align: left">
+                <h1>3.用途和玩法</h1>
+                <div class="text-box col-md-offset-1 col-md-10" style="text-align: left">
+                    <p>你可以用它构建一个智能家居平台，或者用它构建一套家庭安防系统，甚至还可以做机器人或者是更加炫酷的玩具。</p>
+                </div>
+            </div>
+
+            <div class="row" style="text-align: left">
+                <h1>4.适用人群</h1>
+                <div class="text-box col-md-offset-1 col-md-10" style="text-align: left">
+                    <p>学习通信和编程的学生党，炫酷的极客控，还有喜欢DIY的各种技术达人，或者是商业领域。</p>
+                </div>
+            </div>
+
+            <div class="row" style="text-align: left">
+                <h1>5.适用平台</h1>
+                <div class="text-box col-md-offset-1 col-md-10" style="text-align: left">
+                    <p>适用平台非常广泛，Windows，Linux，树莓派，还有Arduino，ARM开发板，甚至是简单的单片机都可以玩转。</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="main">
+        <div class="container" style="border: solid;background-color: #2f3638;border-radius: 10px 15px 20px 30px / 20px 30px 10px 15px;">
+            <div id="cta">
+                <a href="javascript:" class="btn btn-primary  title-label">代码示例</a>
+            </div>
+            <div class ="download">
+
+                <p>Java.C++的库可以用eclipse paho包</p>
+                <a href="http://www.eclipse.org/paho/" style="color: #ffce1b">点击进入下载</a>
+                <p>Arduino的MQTT库</p>
+                <a href="https://github.com/knolleary/pubsubclient" style="color: #ffce1b">点击进入下载</a>
+            </div>
+
+            <div class="row" style="background-color: #2f3638">
+
+
+                <div class="text-box col-md-offset-1 col-md-10">
+
+                    <ul style="padding-left: 8px;padding-right:8px;background-color: #2f3638;color: #FFFFFF;text-align: left;width: 100%">
+                        <li>Python 客户端接入</li>
+
+                        <pre>
                                 <code class="python">
     # -*- coding: utf-8 -*-
 
@@ -131,8 +222,8 @@
     app.publish("hello")
                                 </code>
                             </pre>
-                            <li>Ardiuno客户端接入</li>
-                            <pre>
+                        <li>Ardiuno客户端接入</li>
+                        <pre>
                                 <code>
 #include &lt;SPI.h>
 #include &lt;Ethernet.h>
@@ -196,14 +287,89 @@ void loop()
 
                                 </code>
                             </pre>
-                            <li>Java客户端接入</li>
-                            <pre>
+                        <li>Java客户端接入</li>
+                        <pre>
                                 <code>
+//客户端类
+package bsit.mqtt.demo.one_way;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttSecurityException;
+import org.eclipse.paho.client.mqttv3.MqttTopic;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+
+public class Client {
+
+    public static final String HOST = "服务器IP";
+    public static final String TOPIC = "device/设备ID";
+    private static final String clientid = "这个随意";
+    private MqttClient client;
+    private MqttConnectOptions options;
+    private String userName = "你的设备ID";
+    private String passWord = "";密码不用设置
+
+    private ScheduledExecutorService scheduler;
+
+    private void start() {
+        try {
+            client = new MqttClient(HOST, clientid, new MemoryPersistence());
+            options = new MqttConnectOptions();
+            options.setCleanSession(true);
+            options.setUserName(userName);
+            options.setPassword(passWord.toCharArray());
+            options.setConnectionTimeout(10);
+            options.setKeepAliveInterval(20);
+            client.setCallback(new PushCallback());
+            MqttTopic topic = client.getTopic(TOPIC);
+            client.connect(options);
+            int[] Qos  = {1};
+            String[] topic1 = {TOPIC};
+            client.subscribe(topic1, Qos);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws MqttException {
+        Client client = new Client();
+        client.start();
+    }
+}
+//消息回调类
+package bsit.mqtt.demo.one_way;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+public class PushCallback implements MqttCallback {
+
+    public void connectionLost(Throwable cause) {
+        // 连接丢失后，一般在这里面进行重连
+        System.out.println("连接断开，可以做重连");
+    }
+
+    public void deliveryComplete(IMqttDeliveryToken token) {
+        System.out.println("deliveryComplete---------" + token.isComplete());
+    }
+
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        System.out.println("接收消息主题 : " + topic);
+        System.out.println("接收消息Qos : " + message.getQos());
+        System.out.println("接收消息内容 : " + new String(message.getPayload()));
+    }
+}
 
                                 </code>
                             </pre>
-                            <li>C++客户端接入(windows demo)</li>
-                            <pre>
+                        <li>C++客户端接入(windows demo)</li>
+                        <pre>
                                 <code>
 #include "stdafx.h"
 #include "mosquitto.h"
@@ -211,16 +377,7 @@ void loop()
 #include &lt;iostream>
 #include &lt;string>
 using namespace std;
-/*
-virtual void on_connect(int rc) {return;};
-virtual void on_disconnect(int rc) {return;};
-virtual void on_publish(int mid) {return;};
-virtual void on_message(const struct mosquitto_message *message) {return;};
-virtual void on_subscribe(int mid, int qos_count, const int *granted_qos) {return;};
-virtual void on_unsubscribe(int mid) {return;};
-virtual void on_log(int level, const char *str) {return;};
-virtual void on_error() {return;};
-*/
+
 class MQttClient :public mosqpp::mosquittopp {
 public:
 	int mid = 1;
@@ -250,59 +407,58 @@ public:
 int main(int argc, char** argv)
 {
 	mosqpp::lib_init();
-	MQttClient client("client");
-
-	client.connect("127.0.0.1", 1884);
+	MQttClient client("client");//ID随便起
+	client.connect(服务器IP", 1883);//如果是默认端口，则可省略端口，默认就是1883
+        client.username_pw_set("设备ID","");//后面一个参数是密码，通常密码为空
 	client.loop_forever(100);
-	system("pause");
 	return 0;
 }
 
                                 </code>
                             </pre>
 
-                        </ul>
+                    </ul>
 
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
 
-        <footer id="footer" style="background-color:black;">
-            <div class="container">
-                <div class="footer-holder">
-                    <div class="row  text-center">
-                        <div class="col-md-12">
-                            <a href="#"><img src="new_index/images/logo.png" alt="Sports HTML Template"/></a>
-                        </div>
-
+    <footer id="footer" style="background-color:black;">
+        <div class="container">
+            <div class="footer-holder">
+                <div class="row  text-center">
+                    <div class="col-md-12">
+                        <a href="#"><img src="new_index/images/logo.png" alt="Sports HTML Template"/></a>
                     </div>
-                    <div class="row">
-                        <div id="cta" class="cta-footer">
-                            <a href="javascript:" class="btn btn-primary rounded">关注开源</a>
-                            <p>积极参加开源，为项目贡献力量，让更多人学习项目。</p>
-                            <a href="https://github.com/wwhai/easylinker ">https://github.com/wwhai/easylinker</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h3>关于我们</h3>
 
-
-                            <p>	@EasyLinker Team</p>
-                            <p>	Email:751957846@qq.com</p>
-                            <p>	QQ群:475512169</p>
-
-                        </div>
-
+                </div>
+                <div class="row">
+                    <div id="cta" class="cta-footer">
+                        <a href="javascript:" class="btn btn-primary rounded">关注开源</a>
+                        <p>积极参加开源，为项目贡献力量，让更多人学习项目。</p>
+                        <a href="https://github.com/wwhai/easylinker ">https://github.com/wwhai/easylinker</a>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>关于我们</h3>
+
+
+                        <p> @EasyLinker Team</p>
+                        <p> Email:751957846@qq.com</p>
+                        <p> QQ群:475512169</p>
+
+                    </div>
+
+                </div>
             </div>
-        </footer>
-    </div>
-    <script src="new_index/js/jquery-1.11.2.min.js"></script>
-    <script src="new_index/js/bootstrap.js"></script>
-    <script src="new_index/js/jquery.main.js"></script>
-    </body>
-    </html>
+        </div>
+    </footer>
+</div>
+<script src="new_index/js/jquery-1.11.2.min.js"></script>
+<script src="new_index/js/bootstrap.js"></script>
+<script src="new_index/js/jquery.main.js"></script>
+</body>
+</html>

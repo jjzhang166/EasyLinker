@@ -66,7 +66,17 @@
 
 
 
+    <script type="application/javascript">
+            $.get("http://localhost:8161/api/jolokia/", {
+            }, function (data, status) {
+                JSON.parse(data, function(k, v) {
+                    console.log(k,v);
+                    //如何在这里提取出内部的JSON
 
+                });
+
+            });
+    </script>
     <div class="am-u-sm-12 am-u-md-4">
         <div class="widget am-cf">
             <div class="widget-head am-cf">
@@ -78,8 +88,7 @@
 
             <div class="widget-body widget-body-md am-fr">
                 <ul>
-                    <li>github地址:<a href="https://github.com/wwhai/easylinker/">https://github.com/wwhai/easylinker/</a></li>
-                    <li>OSC地址:<a href="https://www.oschina.net/p/easylinker">https://www.oschina.net/p/easylinker</a></li>
+
 
                 </ul>
 
@@ -100,11 +109,9 @@
 
             <div class="widget-body widget-body-md am-fr">
                 <ul>
-                    <li>快速开始</li>
-                    <li>熟悉系统</li>
-                    <li>接入设备</li>
-                    <li>开源社区</li>
-                    <li>REST文档:</li>
+                    <li>github地址:<a href="https://github.com/wwhai/easylinker/">https://github.com/wwhai/easylinker/</a></li>
+                    <li>OSC地址:<a href="https://www.oschina.net/p/easylinker">https://www.oschina.net/p/easylinker</a></li>
+
                 </ul>
 
             </div>
@@ -115,7 +122,7 @@
 
     <div class="am-u-sm-6" style="background-color: #FFFFFF">
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="chart1" style="width: 800px;height:400px;"></div>
+        <div id="chart1" style="width: 400px;height:300px;"></div>
         <script type="text/javascript">
             var myChart = echarts.init(document.getElementById('chart1'));
             var option = {
@@ -167,7 +174,7 @@
 
     <div class="am-u-sm-6" style="background-color: #FFFFFF">
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="chart2" style="width: 800px;height:400px;"></div>
+        <div id="chart2" style="width: 400px;height:300px;"></div>
         <script type="text/javascript">
             var myChart = echarts.init(document.getElementById('chart2'));
             var option = {
@@ -195,12 +202,7 @@
                             normal: {
                                 show: false
                             }
-                        },
-                        data:[
-                            {value:335, name:'直达', selected:true},
-                            {value:679, name:'营销广告'},
-                            {value:1548, name:'搜索引擎'}
-                        ]
+                        }
                     },
                     {
                         name:'访问来源',
@@ -208,14 +210,10 @@
                         radius: ['40%', '55%'],
 
                         data:[
-                            {value:335, name:'直达'},
-                            {value:310, name:'邮件营销'},
-                            {value:234, name:'联盟广告'},
-                            {value:135, name:'视频广告'},
-                            {value:1048, name:'百度'},
-                            {value:251, name:'谷歌'},
-                            {value:147, name:'必应'},
-                            {value:102, name:'其他'}
+                            {value:335, name:'媒体类型'},
+                            {value:310, name:'值型'},
+                            {value:234, name:'开关'},
+
                         ]
                     }
                 ]
