@@ -1,20 +1,21 @@
 package com.wwh.iot.easylinker.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.wwh.iot.easylinker.apiv1.MessageSender;
 import com.wwh.iot.easylinker.configure.activemq.ActiveMQMessageProducer;
 import com.wwh.iot.easylinker.constants.DeviceType;
 import com.wwh.iot.easylinker.constants.SystemMessage;
 import com.wwh.iot.easylinker.entity.AppUser;
 import com.wwh.iot.easylinker.entity.Device;
+import com.wwh.iot.easylinker.entity.data.TypeMediaData;
+import com.wwh.iot.easylinker.entity.data.TypeValueData;
 import com.wwh.iot.easylinker.repository.DeviceRepository;
-import jdk.nashorn.internal.ir.RuntimeNode;
-import org.apache.activemq.ActiveMQConnectionFactory;
+import com.wwh.iot.easylinker.repository.TypeMediaDataRepository;
+import com.wwh.iot.easylinker.repository.TypeValueDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.client.OkHttpClientHttpRequestFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.transaction.Transactional;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +45,13 @@ public class AdminController {
     @Autowired
     ActiveMQMessageProducer activeMQMessageProducer;
 
+    @Autowired
+    TypeValueDataRepository typeValueDataRepository;
+    @Autowired
+    TypeMediaDataRepository typeMediaDataRepository;
+
     @RequestMapping("/index")
-    public String index(Model model)throws Exception {
+    public String index(Model model) throws Exception {
         AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Map<String, Object> systemInfo = new HashMap<>();
@@ -68,7 +68,7 @@ public class AdminController {
         systemInfo.put("totalMemory", totalMemory);
         systemInfo.put("freeMemory", freeMemory);
         systemInfo.put("alreadyUse", alreadyUse);
-        systemInfo.put("deviceCount",deviceRepository.countByAppUser(appUser) );
+        systemInfo.put("deviceCount", deviceRepository.countByAppUser(appUser));
         systemInfo.put("onlineDevice", deviceRepository.getOnlineDeviceCount());
         model.addAttribute("systemInfo", systemInfo);
         return "admin/index";
@@ -98,7 +98,7 @@ public class AdminController {
     }
 
     @RequestMapping("/add")
-    public String add(RedirectAttributes redirectAttributes, @RequestParam String name, @RequestParam DeviceType type, @RequestParam String describe,@RequestParam String deviceGroup) {
+    public String add(RedirectAttributes redirectAttributes, @RequestParam String name, @RequestParam DeviceType type, @RequestParam String describe, @RequestParam String deviceGroup) {
         AppUser user = (AppUser) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
@@ -121,13 +121,12 @@ public class AdminController {
     @ResponseBody
     @RequestMapping("/deleteDevice")
     public JSONObject deleteDevice(@RequestParam String deviceId) {
-        JSONObject jsonObject=new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         deviceRepository.delete(deviceId);
-        jsonObject.put("state",1);
-        jsonObject.put("message",SystemMessage.OPERATE_SUCCESS.toString());
+        jsonObject.put("state", 1);
+        jsonObject.put("message", SystemMessage.OPERATE_SUCCESS.toString());
         return jsonObject;
     }
-
 
 
     @RequestMapping("/deviceDetail")
@@ -136,10 +135,37 @@ public class AdminController {
         return "admin/deviceDetail";
     }
 
+    @RequestMapping("/deviceData")
+    @ResponseBody
+    /**
+     * 获取数据列表
+     */
+    public JSONObject deviceData(@RequestParam(name = "pageNumber", required = false, defaultValue = "1") Integer pageNumber,
+                           @RequestParam(name = "deviceId") String deviceId,
+                           @RequestParam(name = "deviceType") DeviceType deviceType,
+                           @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, size);
+        Device device = deviceRepository.findOne(deviceId);
+        JSONObject resultJson=new JSONObject();
+        JSONArray contentArray=new JSONArray();
+
+        switch (deviceType.toString()) {
+            case "TYPE_VALUE":
+                resultJson.put("data",typeValueDataRepository.findAllByDevice(device, pageRequest));
+                break;
+            case "TYPE_MEDIA":
+                resultJson.put("data",typeMediaDataRepository.findAllByDevice(device, pageRequest));
+                break;
+            default:
+                break;
+        }
+        return resultJson;
+    }
+
 
     @RequestMapping("/pushMessage")
     @ResponseBody
-    public JSONObject pushMessage(@RequestParam String deviceId,  @RequestParam(defaultValue = "default") String message) {
+    public JSONObject pushMessage(@RequestParam String deviceId, @RequestParam(defaultValue = "default") String message) {
         return activeMQMessageProducer.pushMessage(deviceId, message);
     }
 

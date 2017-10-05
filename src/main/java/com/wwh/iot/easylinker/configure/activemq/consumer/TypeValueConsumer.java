@@ -1,16 +1,17 @@
 package com.wwh.iot.easylinker.configure.activemq.consumer;
 
-import com.wwh.iot.easylinker.entity.AppUser;
+import com.alibaba.fastjson.JSONObject;
 import com.wwh.iot.easylinker.entity.Device;
 import com.wwh.iot.easylinker.entity.data.TypeValueData;
 import com.wwh.iot.easylinker.repository.DeviceRepository;
 import com.wwh.iot.easylinker.repository.TypeValueDataRepository;
+import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.command.ActiveMQMessage;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
-
+import java.lang.String;
 /**
  * Created by wwhai on 2017/7/31.
  */
@@ -21,17 +22,29 @@ public class TypeValueConsumer {
 
     @Autowired
     TypeValueDataRepository typeValueDataRepository;
+    String username;
+    String textMessage;
+    JSONObject receivedMessageJson;
 
     @JmsListener(destination = "device.typevalue.>")
     public void receiveMessage(ActiveMQMessage message) throws Exception{
-        ActiveMQTextMessage textMessage=(ActiveMQTextMessage)message;
-        String username=textMessage.getConnection().getConnectionInfo().getUserName();
+
+        if (message instanceof ActiveMQTextMessage){
+            receivedMessageJson=JSONObject.parseObject(((ActiveMQTextMessage) message).getText().toString());
+            username=receivedMessageJson.get("username").toString();
+            textMessage=receivedMessageJson.get("message").toString();
+
+        }else if(message instanceof ActiveMQBytesMessage){
+            receivedMessageJson=JSONObject.parseObject(new String(message.getMessage().getContent().getData(),"utf-8"));
+            username=receivedMessageJson.get("username").toString();
+            textMessage=receivedMessageJson.get("message").toString();
+        }
         if (username!=null){
             Device device=deviceRepository.findOne(username);
             if (device!=null){
                 TypeValueData typeValueData=new TypeValueData();
                 typeValueData.setDevice(device);
-                typeValueData.setValue(((ActiveMQTextMessage) message).getText().toString());
+                typeValueData.setValue(textMessage);
                 typeValueData.setName(message.getUserID());
                 typeValueDataRepository.save(typeValueData);
             }else {
@@ -40,7 +53,6 @@ public class TypeValueConsumer {
 
         }
 
-        System.out.println(username);
-        System.out.println("from device message:"+message);
+        System.out.println("From device value message:"+message);
     }
 }

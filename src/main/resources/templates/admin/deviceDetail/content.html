@@ -73,36 +73,37 @@
 </div>
 
 
-
 <div class="widget am-cf" th:if="${device.type.name() == 'TYPE_SWITCHER'}">
     <div class=" widget-head am-cf">
         <div class="widget-title am-fl">状态</div>
     </div>
     <div style="text-align: center">
         <p>状态：<span id="doc-single-toggle-status" class="am-text-danger">关</span></p>
-        <button id="doc-single-toggle" type="button" class="am-btn am-btn-primary" data-am-button th:name="${device.id}">切换状态</button>
+        <button id="doc-single-toggle" type="button" class="am-btn am-btn-primary" data-am-button
+                th:name="${device.id}">切换状态
+        </button>
 
         <script type="application/javascript">
             function changeState(message) {
                 $.post("/admin/pushMessage", {
-                    deviceId:$('#deviceId').val(),
+                    deviceId: $('#deviceId').val(),
                     message: message
                 }, function (data, status) {
-                    alert("状态转换成功！"+status);
+                    alert("状态转换成功！" + status);
                 });
             }
         </script>
 
         <script>
-            $(function() {
+            $(function () {
                 var $toggleButton = $('#doc-single-toggle');
-                $toggleButton.on('click', function() {
+                $toggleButton.on('click', function () {
                     var status = $toggleButton.hasClass('am-active') ? '开' : '关';
-                    if(status=="开"){
+                    if (status == "开") {
                         changeState("1");
                         console.log("ON");
 
-                    }else if (status=="关"){
+                    } else if (status == "关") {
                         changeState("0");
                         console.log("OFF");
 
@@ -118,14 +119,13 @@
 <script type="application/javascript">
     function push() {
         $.post("/admin/pushMessage", {
-            deviceId:$('#deviceId').val(),
+            deviceId: $('#deviceId').val(),
             message: $('#message').val()
         }, function (data, status) {
-            alert("推送成功！"+status);
+            alert("推送成功！" + status);
         });
     }
 </script>
-
 
 
 <div class="widget am-cf" th:if="${device.type.name() == 'TYPE_MEDIA'}">
@@ -158,7 +158,7 @@
                     <a href="javascript:;">
                         <i class="am-icon-pencil"></i> 编辑
                     </a>
-                    <a  class="tpl-table-black-operation-del">
+                    <a class="tpl-table-black-operation-del">
                         <i class="am-icon-trash"></i> 删除
                     </a>
                 </div>
@@ -180,7 +180,7 @@
                     <a href="javascript:;">
                         <i class="am-icon-pencil"></i> 编辑
                     </a>
-                    <a  class="tpl-table-black-operation-del">
+                    <a class="tpl-table-black-operation-del">
                         <i class="am-icon-trash"></i> 删除
                     </a>
                 </div>
@@ -202,7 +202,7 @@
                     <a href="javascript:;">
                         <i class="am-icon-pencil"></i> 编辑
                     </a>
-                    <a  class="tpl-table-black-operation-del">
+                    <a class="tpl-table-black-operation-del">
                         <i class="am-icon-trash"></i> 删除
                     </a>
                 </div>
@@ -216,44 +216,88 @@
 
 </div>
 
+
 <div class="widget am-cf" th:if="${device.type.name() == 'TYPE_VALUE'}">
+    <script type="application/javascript">
+        $(document).ready(function () {
+            paginate();
+        })
+    </script>
+    <script type="application/javascript">
+        function paginate() {
+
+            $.post("/admin/deviceData", {
+                deviceId: $('#deviceId').val(),
+                deviceType: "TYPE_VALUE",
+                pageNumber: $('#pageNumber').val(),
+            }, function (data, status) {
+                console.info(data);
+                var size = data.data.totalElements;
+                var dataList = data.data.content;
+                var isFirst = data.data.first;
+                var isLast = data.data.last;
+                var tableContent = "";
+                var pageBarContent = "";
+                var pageNumber = data.data.number;
+                for (i in dataList) {
+
+                    tableContent +=
+                        '<tr>' +
+                        '<td>' + dataList[i].value + '</td>' +
+                        '<td>' +  new Date(dataList[i].createTime).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ")+ '</td>' +
+                        '</tr>'
+                }
+                $('#data-result').html(tableContent);
+
+                if (isFirst && !isLast) {
+                    pageBarContent =
+                        '<li id="next"  class="am-btn am-btn-warning">下一页</li>' +
+                        '<li id="pageNumber">' + pageNumber + '</li>';
+                    $('#pagination').html(pageBarContent);
+
+                } else if (isFirst && isLast) {
+                    pageBarContent =
+                        '<li id="pageNumber">' + pageNumber + '</li>';
+                    $('#pagination').html(pageBarContent);
+
+                } else if (!isFirst && isLast) {
+                    pageBarContent =
+                        '<li id="pre" class="am-btn am-btn-warning"><a>上一页</a></li>' +
+                        '<li id="pageNumber">' + pageNumber + '</li>';
+                    $('#pagination').html(pageBarContent);
+
+                } else if (!isFirst && !isLast) {
+                    pageBarContent =
+                        '<li id="pre" class="am-btn am-btn-warning"><a>上一页</a></li>' +
+                        '<li id="pageNumber">' + pageNumber + '</li>' +
+                        '<li id="next" class="am-btn am-btn-warning"><a>下一页</a></li>';
+                    $('#pagination').html(pageBarContent);
+
+                }
+            });
+        }
+
+
+    </script>
+
     <div class="widget-head am-cf">
         <div class="widget-title am-fl">数据预览</div>
     </div>
 
-    <table class="am-table am-table-bordered am-table-striped am-table-compact">
+    <table class="am-table am-table-bordered am-table-striped am-table-compact" id="data-table">
         <thead>
         <tr>
-            <th>ID</th>
+            <!-- <th>ID</th>-->
             <th>值</th>
             <th>创建时间</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-            <td>1</td>
-            <td>100</td>
-            <td>2017.8.30 12.23</td>
-        </tr>
-
-        <tr>
-            <td>1</td>
-            <td>100</td>
-            <td>2017.8.30 12.23</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>100</td>
-            <td>2017.8.30 12.23</td>
-        </tr>
-
+        <tbody id="data-result">
         </tbody>
 
     </table>
-    <ul class="am-pagination">
-        <li><a href="">上一页</a></li>
-        <li><span>5/100</span></li>
-        <li><a href="">下一页</a></li>
+    <ul class="am-pagination" id="pagination">
+
     </ul>
 
 </div>

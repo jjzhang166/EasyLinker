@@ -1,8 +1,10 @@
 package com.wwh.iot.easylinker.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,7 +16,7 @@ import java.util.UUID;
  * JPA基类
  */
 @MappedSuperclass
-public class BaseEntity {
+public class BaseEntity  {
     @Id
     @GeneratedValue(generator = "assignedGenerator")
     @GenericGenerator(name = "assignedGenerator", strategy = "assigned")

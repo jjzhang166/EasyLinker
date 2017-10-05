@@ -10,6 +10,7 @@ import com.wwh.iot.easylinker.entity.Device;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 /**
@@ -17,7 +18,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class TypeMediaData extends BaseEntity{
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL,optional = false,fetch = FetchType.LAZY)
     private Device device;
     private String value;
     private String name;

@@ -41,6 +41,7 @@ public class AdviseConsumer {
                 device.setConnectionId(connectionId);
                 device.setIsOnline(true);
                 deviceRepository.save(device);
+                deviceRepository.flush();
                 logger.info("Device [" + username + "] connected with connectionId:" + connectionId);
             }
 
@@ -53,8 +54,14 @@ public class AdviseConsumer {
                     if (device != null) {
                         device.setIsOnline(false);
                         deviceRepository.save(device);
+                        deviceRepository.flush();
                         logger.info("Device disconnected with connection-id:" + objectId);
+                    }else {
+                        logger.warn("Device not exist!");
                     }
+
+                }else {
+                    logger.warn("Connection id is null!");
                 }
             }
         }

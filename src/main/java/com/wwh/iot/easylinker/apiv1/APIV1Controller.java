@@ -11,6 +11,7 @@ import com.wwh.iot.easylinker.repository.AppUserRepository;
 import com.wwh.iot.easylinker.repository.DeviceRepository;
 import com.wwh.iot.easylinker.repository.TypeMediaDataRepository;
 import com.wwh.iot.easylinker.repository.TypeValueDataRepository;
+import com.wwh.iot.easylinker.utils.QRCodeGenerator;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -105,9 +106,10 @@ public class APIV1Controller {
         }
         String originalFilename = multipartFile.getOriginalFilename();
         String suffixName = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String newFilePath = "/";
+        String newFilePath = "/uploadfiles";
         String newFileName = UUID.randomUUID() + suffixName;
         File newFile = new File(newFilePath + newFileName);
+        QRCodeGenerator.dirExists(newFile);
         if (!newFile.exists()) {
             newFile.createNewFile();
         }

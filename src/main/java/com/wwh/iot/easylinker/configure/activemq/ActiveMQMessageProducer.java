@@ -21,7 +21,7 @@ public class ActiveMQMessageProducer {
 
     @Autowired
     private JmsTemplate jmsTemplate;
-//    ActiveMQTopic activeMQTopic = new ActiveMQTopic("DISCONNECTED");
+//    ActiveMQTopic activeMQTopic = new ActiveMQTopic("device.typevalue");
 //    @Scheduled(fixedDelay = 3000)//每3s执行1次
 //     public void testSend() {
 //     this.jmsTemplate.convertAndSend(activeMQTopic, "测试消息");

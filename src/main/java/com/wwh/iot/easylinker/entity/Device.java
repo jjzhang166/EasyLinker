@@ -30,12 +30,27 @@ public class Device extends BaseEntity {
     private AppUser appUser;
     private Boolean isOnline=false;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
-    List<TypeValueData>typeValueDataList;
-
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
-    List<TypeMediaData>typeMediaDataList;
-
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
+//    List<TypeValueData>typeValueDataList;
+//
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
+//    List<TypeMediaData>typeMediaDataList;
+//
+//    public List<TypeValueData> getTypeValueDataList() {
+//        return typeValueDataList;
+//    }
+//
+//    public void setTypeValueDataList(List<TypeValueData> typeValueDataList) {
+//        this.typeValueDataList = typeValueDataList;
+//    }
+//
+//    public List<TypeMediaData> getTypeMediaDataList() {
+//        return typeMediaDataList;
+//    }
+//
+//    public void setTypeMediaDataList(List<TypeMediaData> typeMediaDataList) {
+//        this.typeMediaDataList = typeMediaDataList;
+//    }
 
     @Override
     public void setCreateTime(Date createTime) {

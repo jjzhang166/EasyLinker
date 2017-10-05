@@ -6,6 +6,7 @@ package com.wwh.iot.easylinker.configure;
 
 import com.wwh.iot.easylinker.configure.security.*;
 import com.wwh.iot.easylinker.service.AppUserDetailService;
+import com.wwh.iot.easylinker.service.EasyLinkerOpenEntityManagerInViewFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,12 +16,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.cache.EhCacheBasedUserCache;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.security.web.access.channel.ChannelProcessor;
 
 /**
  * 安全机制配置入口
  */
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    EasyLinkerOpenEntityManagerInViewFilter easyLinkerOpenEntityManagerInViewFilter;
     @Autowired
     AppUserDetailService appUserDetailService;
 
@@ -44,7 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe()
                 .and().exceptionHandling()
                 .authenticationEntryPoint(new DefaultAuthenticationEntry())
-                .and().csrf().disable();
+                .and().csrf().disable()
+                .addFilterBefore(easyLinkerOpenEntityManagerInViewFilter,ChannelProcessingFilter.class);
     }
 
     @Bean
@@ -67,15 +73,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AppUserDetailService customUserDetailsService() {
         return new AppUserDetailService();
     }
-
-    /**
-     * <bean id="userCache"
-     class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache"
-     autowire="byName">
-     <property name="cache" ref="userCacheBackend"/>
-     </bean>
-     * @return
-     */
 
 
 }
