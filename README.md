@@ -11,9 +11,10 @@
   &emsp;&emsp;于是自己着手试了一下，在很长的时间里，尝试了很多方法，也解决了一部分问题，但是总是不完美，期间用了Python在树莓派上实现一个数据呈现平台，但是不理想，折腾许久，最终决定用Java来实现这个平台。这就是这个项目的来源，含义就是：让一切联网变得更加容易！
 &emsp;&emsp;
  ### 安装方法
-1.安装Mysql5.7以上版本
-2.修改JDBC配置
-3.新建一个easylinker数据库 ，用utf-8编码
+&emsp;&emsp;1.安装Mysql5.7以上版本
+&emsp;&emsp;2.修改JDBC配置
+&emsp;&emsp;3.新建一个easylinker数据库 ，用utf-8编码
+&emsp;&emsp;4.安装Activemq服务器
 &emsp;&emsp;
 &emsp;&emsp;
  ### 主页
