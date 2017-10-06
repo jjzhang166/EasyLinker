@@ -15,8 +15,7 @@
 &emsp;&emsp;2.修改JDBC配置
 &emsp;&emsp;3.新建一个easylinker数据库 ，用utf-8编码
 &emsp;&emsp;4.安装Activemq服务器
-&emsp;&emsp;
-&emsp;&emsp;
+
  ### 主页
 ![](screenshot/1.png)
 &emsp;&emsp;
