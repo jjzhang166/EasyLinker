@@ -57,7 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/device/*",
                 "/apiv1/*",
                 "/ifUserExist",
-                "/qrcode/*").permitAll();
+                "/qrcode/*",
+                "/h5console/*").permitAll();
         http.authorizeRequests().anyRequest().authenticated()
                 .and().formLogin().loginPage("/user/login")
                 .successHandler(new LoginSuccessHandler())

@@ -31,7 +31,7 @@ public class QRCodeGenerator {
             FilePathHelper.dirExists(file);
             OutputStream outputStream = new FileOutputStream(file);
             QRCodeWriter writer = new QRCodeWriter();
-            BitMatrix matrix = writer.encode(content, BarcodeFormat.QR_CODE, HEIGHT, WIDTH);
+            BitMatrix matrix = writer.encode("/h5console/index/"+content, BarcodeFormat.QR_CODE, HEIGHT, WIDTH);
             MatrixToImageConfig config = new MatrixToImageConfig(ON_COLOR, BACK_COLOR);
             MatrixToImageWriter.writeToStream(matrix, "png", outputStream,config);
 

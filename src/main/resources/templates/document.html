@@ -41,14 +41,15 @@
         background-color: #1f2224;
         border: solid #94df94;
     }
-    .download{
+
+    .download {
         background-color: #167fa1;
         width: auto;
         margin-bottom: 10px;
         font-size: large;
         border: solid #1f2224;
         padding: 4px;
-       // border-radius: 10px 15px 20px 30px / 20px 30px 10px 15px;
+    / / border-radius: 10 px 15 px 20 px 30 px / 20 px 30 px 10 px 15 px;
     }
 
     ul li {
@@ -98,7 +99,8 @@
 
 
     <section class="main">
-        <div class="container" style="border: solid;background-color: #2f3638;border-radius: 10px 15px 20px 30px / 20px 30px 10px 15px;">
+        <div class="container"
+             style="border: solid;background-color: #2f3638;border-radius: 10px 15px 20px 30px / 20px 30px 10px 15px;">
             <div id="cta">
                 <a class="btn btn-primary  title-label">开始了解</a>
             </div>
@@ -147,11 +149,12 @@
 
 
     <section class="main">
-        <div class="container" style="border: solid;background-color: #2f3638;border-radius: 10px 15px 20px 30px / 20px 30px 10px 15px;">
+        <div class="container"
+             style="border: solid;background-color: #2f3638;border-radius: 10px 15px 20px 30px / 20px 30px 10px 15px;">
             <div id="cta">
                 <a href="javascript:" class="btn btn-primary  title-label">代码示例</a>
             </div>
-            <div class ="download">
+            <div class="download">
                 <p>Python的库安装方法:pip install paho-mqtt</p>
                 <p>Java.C++的库可以用eclipse paho包</p>
                 <a href="http://www.eclipse.org/paho/" style="color: #ffce1b">点击进入下载</a>
@@ -169,7 +172,7 @@
 
                         <pre>
                                 <code class="python">
-   import threading
+import threading
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 import time
@@ -200,8 +203,8 @@ class EasyLinkerApp:
 
 
 
-    def publish(self, message):
-        self.mqtt_client.publish("device/"+self.device_type,str({"username":self.device_id,"message":message}))
+    def publish(self, message,value_name):
+        self.mqtt_client.publish("device/"+self.device_type,str({"username":self.device_id,"name":value_name,"message":message}))
 
     def __init__(self, device_id,device_type, on_message):
         self.device_type=device_type;
@@ -227,12 +230,14 @@ def on_message(client, userdata, msg):
 app = EasyLinkerApp("ba9af79c-efdd-438b-8b17-76f78151c30e","typevalue", on_message)
 app.run()
 time.sleep(5)
-app.publish("1mol")
-app.publish("2mol")
-app.publish("3mol")
-app.publish("4V")
-app.publish("5A")
-app.publish("6NT")
+#第一个参数是值 第二个是单位
+app.publish("1","KG")
+app.publish("2","KM")
+app.publish("3","KT")
+app.publish("4","TS")
+app.publish("5","NT")
+app.publish("6","MOL")
+
                                 </code>
                             </pre>
                         <li>Ardiuno客户端接入</li>

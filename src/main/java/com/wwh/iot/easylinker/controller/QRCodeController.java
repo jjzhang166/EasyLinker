@@ -18,8 +18,9 @@ import java.net.URL;
  * Created by wwhai on 2017/10/6.
  */
 @Controller
+@RequestMapping("/qrcode")
 public class QRCodeController {
-    @RequestMapping("/qrcode/{imagePath}")
+    @RequestMapping("/{imagePath}")
     public void getQRCode(HttpServletResponse response, @PathVariable String imagePath) throws IOException {
         File file = new File("/qrcode/"+imagePath+".png");
         OutputStream outputStream = response.getOutputStream();

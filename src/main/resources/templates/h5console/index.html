@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>EasyLinker</title>
+    <meta name="description" content="EasyLinker"/>
+    <meta name="keywords" content="index"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="icon" type="image/png" th:href="@{/images/favicon.ico}"/>
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <script th:src="@{/assets/js/echarts.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/assets/css/amazeui.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/amazeui.datatables.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/app.css}"/>
+    <link rel="stylesheet" th:href="@{/css/switcher.css}"/>
+
+    <script src="/assets/js/jquery.min.js"></script>
+</head>
+<body>
+<header data-am-widget="header"
+        class="am-header am-header-default">
+
+    <h1 class="am-header-title">
+        <a href="#title-link" class="">
+            控制台
+        </a>
+    </h1>
+
+</header>
+
+
+
+<table class="am-table am-table-bordered">
+    <thead>
+    <tr>
+        <th>设备状态</th>
+        <th>ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>在线</td>
+        <td>12332324224</td>
+    </tr>
+
+    </tbody>
+</table>
+
+
+<form class="am-form am-form-horizontal">
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-sm-2 am-form-label">命令</label>
+        <div class="am-u-sm-10">
+            <input type="email" id="doc-ipt-3" placeholder="输入命令">
+        </div>
+    </div>
+
+    <div class="am-form-group">
+        <div class="am-u-sm-10 am-u-sm-offset-1">
+            <button type="button" class="am-btn am-btn-warning  am-btn-block">推送</button>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

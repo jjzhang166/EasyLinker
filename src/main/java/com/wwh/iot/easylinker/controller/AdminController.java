@@ -86,7 +86,7 @@ public class AdminController {
                 .getPrincipal();
         Sort sort = new Sort(Sort.Direction.DESC, "id");
 
-        Page<Device> devicePage = deviceRepository.findByAppUser(user, new PageRequest(page, size, sort));
+        Page<Device> devicePage = deviceRepository.findByAppUserOrderByCreateTimeDesc(user, new PageRequest(page, size, sort));
         System.out.println(devicePage.getNumberOfElements());
         model.put("devicePage", devicePage);
         return "admin/devices";

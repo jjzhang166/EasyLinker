@@ -15,7 +15,7 @@ import java.util.List;
  * Created by wwhai on 2017/8/1.
  */
 public interface DeviceRepository extends JpaRepository<Device, String> {
-    Page<Device> findByAppUser(AppUser user, Pageable pageable);
+    Page<Device> findByAppUserOrderByCreateTimeDesc(AppUser user, Pageable pageable);
 
     Device findByConnectionId(String connectionId);
 
