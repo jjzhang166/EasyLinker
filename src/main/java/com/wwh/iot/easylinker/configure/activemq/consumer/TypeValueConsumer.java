@@ -24,20 +24,27 @@ public class TypeValueConsumer {
     TypeValueDataRepository typeValueDataRepository;
     String username;
     String textMessage;
+    String valueName;//计量单位 比如 牛顿 千克
     JSONObject receivedMessageJson;
+    boolean isLocalDevice=false;
 
     @JmsListener(destination = "device.typevalue.>")
     public void receiveMessage(ActiveMQMessage message) throws Exception{
+        if (message.getConnection().getConnectionInfo().getClientIp().startsWith("tcp://127.0.0.1")){
+            isLocalDevice=true;
+        }
 
         if (message instanceof ActiveMQTextMessage){
             receivedMessageJson=JSONObject.parseObject(((ActiveMQTextMessage) message).getText().toString());
             username=receivedMessageJson.get("username").toString();
             textMessage=receivedMessageJson.get("message").toString();
+            valueName=receivedMessageJson.get("name").toString();
 
         }else if(message instanceof ActiveMQBytesMessage){
             receivedMessageJson=JSONObject.parseObject(new String(message.getMessage().getContent().getData(),"utf-8"));
             username=receivedMessageJson.get("username").toString();
             textMessage=receivedMessageJson.get("message").toString();
+            valueName=receivedMessageJson.get("name").toString();
         }
         if (username!=null){
             Device device=deviceRepository.findOne(username);
@@ -45,10 +52,15 @@ public class TypeValueConsumer {
                 TypeValueData typeValueData=new TypeValueData();
                 typeValueData.setDevice(device);
                 typeValueData.setValue(textMessage);
-                typeValueData.setName(message.getUserID());
+                typeValueData.setName(valueName);
                 typeValueDataRepository.save(typeValueData);
             }else {
-                System.out.println("Device Not Exist!");
+                if (isLocalDevice){
+                    System.out.println("Local Device !");
+                }else {
+                    System.out.println("Device Not Exist!");
+                }
+
             }
 
         }

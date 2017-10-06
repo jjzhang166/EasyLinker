@@ -38,38 +38,46 @@
 
 
 <div class="widget am-cf">
+
     <div class="widget-head am-cf">
         <div class="widget-title am-fl">命令面板</div>
-        <!--没有使用网格的内容-->
+    </div>
+    <div class="widget-head am-cf">
+
         <div class="am-container">
-
-            <form class="am-form am-form-horizontal">
-                <div class="am-form-group">
-                    <label for="doc3" class="am-u-sm-2 am-form-label">ID</label>
-                    <div class="am-u-sm-10">
-                        <input type="text" id="deviceId" placeholder="当前设备ID" name="deviceId"
-                               th:attr="value=${ device.id}" disabled="disabled"/>
-                        <input type="hidden" id="deviceType" placeholder="当前设备ID" name="deviceType"
-                               th:attr="value=${ device.type}" disabled="disabled"/>
-                    </div>
+            <div class="am-g">
+                <div class="am-u-lg-3">
+                    <img th:src="${ device.qrCode}" width="120px"/>
                 </div>
-                <div class="am-form-group">
-                    <label for="doc-ipt" class="am-u-sm-2 am-form-label">内容</label>
-                    <div class="am-u-sm-10">
-                        <input type="text" id="message" name="message" placeholder="输入你想推送内容" required="required"/>
-                    </div>
-                </div>
+                <div class="am-u-lg-9">
+                    <form class="am-form am-form-horizontal">
+                        <div class="am-form-group">
+                            <label for="doc3" class="am-u-sm-2 am-form-label">ID</label>
+                            <div class="am-u-sm-10">
+                                <input type="text" id="deviceId" placeholder="当前设备ID" name="deviceId"
+                                       th:attr="value=${ device.id}" disabled="disabled"/>
+                                <input type="hidden" id="deviceType" placeholder="当前设备ID" name="deviceType"
+                                       th:attr="value=${ device.type}" disabled="disabled"/>
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="doc-ipt" class="am-u-sm-2 am-form-label">内容</label>
+                            <div class="am-u-sm-10">
+                                <input type="text" id="message" name="message" placeholder="输入你想推送内容"
+                                       required="required"/>
+                            </div>
+                        </div>
 
-
-                <div class="am-form-group">
-                    <div class="am-u-sm-10 am-u-sm-offset-2">
-                        <button type="button" onclick="push()" class="am-btn am-btn-default">推送</button>
-                    </div>
+                        <div class="am-form-group">
+                            <div class="am-u-sm-10 am-u-sm-offset-2">
+                                <button type="button" onclick="push()" class="am-btn am-btn-default">推送</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-
 </div>
 
 
@@ -244,7 +252,7 @@
                     tableContent +=
                         '<tr>' +
                         '<td>' + dataList[i].value + '</td>' +
-                        '<td>' +  new Date(dataList[i].createTime).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ")+ '</td>' +
+                        '<td>' + new Date(dataList[i].createTime).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ") + '</td>' +
                         '</tr>'
                 }
                 $('#data-result').html(tableContent);

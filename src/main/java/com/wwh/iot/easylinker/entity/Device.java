@@ -3,6 +3,7 @@ package com.wwh.iot.easylinker.entity;
 import com.wwh.iot.easylinker.constants.DeviceType;
 import com.wwh.iot.easylinker.entity.data.TypeMediaData;
 import com.wwh.iot.easylinker.entity.data.TypeValueData;
+import com.wwh.iot.easylinker.utils.QRCodeGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,8 +30,16 @@ public class Device extends BaseEntity {
     @ManyToOne
     private AppUser appUser;
     private Boolean isOnline=false;
+    private String qrCode;
 
-//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
+    //    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
 //    List<TypeValueData>typeValueDataList;
 //
 //    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")

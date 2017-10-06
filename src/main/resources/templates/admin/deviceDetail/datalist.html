@@ -1,0 +1,102 @@
+<div class="widget am-cf" th:if="${device.type.name() == 'TYPE_MEDIA'}">
+    <div class="widget-head am-cf">
+        <div class="widget-title am-fl">TYPE_MEDIA</div>
+    </div>
+
+    <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black ">
+        <thead>
+        <tr>
+            <th>缩略图</th>
+            <th>标题</th>
+            <th>时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="gradeX">
+            <td>
+                <img src="/images/logo.png" class="tpl-table-line-img" alt="">
+            </td>
+            <td class="am-text-middle">家庭监控</td>
+            <td class="am-text-middle">2016-09-26</td>
+            <td class="am-text-middle">
+                <div class="tpl-table-black-operation">
+                    <a href="javascript:;">
+                        <i class="am-icon-pencil"></i> 详情
+                    </a>
+                    <a href="javascript:;">
+                        <i class="am-icon-pencil"></i> 编辑
+                    </a>
+                    <a class="tpl-table-black-operation-del">
+                        <i class="am-icon-trash"></i> 删除
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="widget am-cf" th:if="${device.type.name() == 'TYPE_VALUE'}">
+    <script type="application/javascript">
+        $(document).ready(function () {
+            paginate();
+        })
+    </script>
+    <script type="application/javascript">
+        function paginate() {
+
+            $.post("/admin/deviceData", {
+                deviceId: $('#deviceId').val(),
+                deviceType: "TYPE_VALUE",
+                pageNumber: $('#pageNumber').val(),
+            }, function (data, status) {
+                console.info(data);
+                var size = data.data.totalElements;
+                var dataList = data.data.content;
+                var isFirst = data.data.first;
+                var isLast = data.data.last;
+                var tableContent = "";
+                var pageBarContent = "";
+                var pageNumber = data.data.number;
+                for (i in dataList) {
+                    tableContent +=
+                        '<tr>' +
+                        '<td>' + dataList[i].value + '</td>' +
+                        '<td>' + dataList[i].name + '</td>' +
+                        '<td>' + new Date(dataList[i].createTime).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ") + '</td>' +
+                        '</tr>'
+                }
+                $('#data-result').html(tableContent);
+
+                if (isFirst && !isLast) {
+                    pageBarContent =
+                        '<li id="next"  class="am-btn am-btn-warning">下一页</li>' +
+                        '<li id="pageNumber">' + pageNumber + '</li>';
+                    $('#pagination').html(pageBarContent);
+
+                } else if (isFirst && isLast) {
+                    pageBarContent =
+                        '<li id="pageNumber">' + pageNumber + '</li>';
+                    $('#pagination').html(pageBarContent);
+
+                } else if (!isFirst && isLast) {
+                    pageBarContent =
+                        '<li id="pre" class="am-btn am-btn-warning"><a>上一页</a></li>' +
+                        '<li id="pageNumber">' + pageNumber + '</li>';
+                    $('#pagination').html(pageBarContent);
+
+                } else if (!isFirst && !isLast) {
+                    pageBarContent =
+                        '<li id="pre" class="am-btn am-btn-warning"><a>上一页</a></li>' +
+                        '<li id="pageNumber">' + pageNumber + '</li>' +
+                        '<li id="next" class="am-btn am-btn-warning"><a>下一页</a></li>';
+                    $('#pagination').html(pageBarContent);
+
+                }
+            });
+        }
+
+    </script>
+</div>

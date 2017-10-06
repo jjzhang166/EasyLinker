@@ -73,9 +73,10 @@ p {
   width: 100%;
   z-index: 99;
   padding: 31px 0 32px;
-  background: transparent;
- 
-  -webkit-backface-visibility: hidden;
+  background: #000000;
+  filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;
+
+-webkit-backface-visibility: hidden;
   /* Prevent Chrome bug because of on-scroll effect in other section */ }
   #header .btn {
     float: right;
@@ -276,6 +277,7 @@ p {
 
 .cta-footer {
  	margin-top: 40px !important;
+    background: url("/new_index/images/img-bg-011.jpg");
 }
 
 .cta-footer p:before {  content: '';

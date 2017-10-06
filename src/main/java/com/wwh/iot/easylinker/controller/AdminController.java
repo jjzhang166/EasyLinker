@@ -12,6 +12,7 @@ import com.wwh.iot.easylinker.entity.data.TypeValueData;
 import com.wwh.iot.easylinker.repository.DeviceRepository;
 import com.wwh.iot.easylinker.repository.TypeMediaDataRepository;
 import com.wwh.iot.easylinker.repository.TypeValueDataRepository;
+import com.wwh.iot.easylinker.utils.QRCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -106,6 +107,7 @@ public class AdminController {
         device.setDeviceGroup(deviceGroup);
         device.setAppUser(user);
         device.setName(name);
+        device.setQrCode( QRCodeGenerator.GenerateQRCode(device.getId()));
         device.setDeviceDescribe(describe);
         device.setType(type);
         deviceRepository.save(device);
@@ -147,11 +149,9 @@ public class AdminController {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, size);
         Device device = deviceRepository.findOne(deviceId);
         JSONObject resultJson=new JSONObject();
-        JSONArray contentArray=new JSONArray();
-
         switch (deviceType.toString()) {
             case "TYPE_VALUE":
-                resultJson.put("data",typeValueDataRepository.findAllByDevice(device, pageRequest));
+                resultJson.put("data",typeValueDataRepository.findAllByDeviceOrderByCreateTimeDesc(device, pageRequest));
                 break;
             case "TYPE_MEDIA":
                 resultJson.put("data",typeMediaDataRepository.findAllByDevice(device, pageRequest));
