@@ -1,0 +1,357 @@
+Index: src/main/java/com/wwh/iot/easylinker/configure/security/LoginSuccessHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/wwh/iot/easylinker/configure/security/LoginSuccessHandler.java	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
++++ src/main/java/com/wwh/iot/easylinker/configure/security/LoginSuccessHandler.java	(revision )
+@@ -26,7 +26,6 @@
+     @Override
+     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse httpServletResponse,
+                                         Authentication authentication) throws IOException, ServletException {
+-        System.out.println("登陆成功");
+         AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+ 
+         String loginType = request.getParameter("loginType");
+Index: src/main/java/com/wwh/iot/easylinker/configure/activemq/consumer/AdviseConsumer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/wwh/iot/easylinker/configure/activemq/consumer/AdviseConsumer.java	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
++++ src/main/java/com/wwh/iot/easylinker/configure/activemq/consumer/AdviseConsumer.java	(revision )
+@@ -27,12 +27,14 @@
+     @Autowired
+     private JmsTemplate jmsTemplate;
+ 
++    ConsumerId consumerId;
++    ConsumerInfo consumerInfo;
+     @JmsListener(destination = "ActiveMQ.Advisory.Connection.>")
+     public void onConnection(ActiveMQMessage connectionMessage) throws Exception {
+         boolean isLegalDevice = false;//默认没有连接
+         boolean isLocalConnection = false;
+         DataStructure dataStructure = connectionMessage.getDataStructure();
+-        System.out.println("dataStructure-->"+dataStructure);
++        System.out.println("新的连接 dataStructure-->"+dataStructure);
+ 
+         if (dataStructure instanceof ConnectionInfo) {
+             String connectionId = ((ConnectionInfo) dataStructure).getConnectionId().toString();
+@@ -42,9 +44,6 @@
+                 isLocalConnection = true;
+             }
+ 
+-
+-
+-
+             if ((username != null) && ((device = deviceRepository.findOne(username)) != null)) {
+                 device.setConnectionId(connectionId);
+                 device.setIsOnline(true);
+@@ -57,6 +56,7 @@
+                 } else {
+ 
+                     this.jmsTemplate.convertAndSend("DISCONNECTED", connectionId);
++                    System.out.println(connectionId);
+                     logger.warn("Illegal device want to connect without ID!");
+                 }
+             }
+@@ -67,14 +67,8 @@
+             device.setIsOnline(false);
+             deviceRepository.save(device);
+             logger.info("Device disconnected with connection-id:" + objectId);
+-            if (isLegalDevice){
+-                logger.warn("合法设备断开!");
+-            }else {
+-                logger.warn("不合法设备断开!");
+-            }
+         }else {
+-
+-
++            logger.info("Illegal Device disconnected ");
+         }
+ 
+     }
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>GBK
+===================================================================
+--- src/main/resources/application.properties	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
++++ src/main/resources/application.properties	(revision )
+@@ -16,9 +16,9 @@
+ ##############################################################################################################
+ ##############################################################################################################
+ #database
+-spring.datasource.url=jdbc:mysql://localhost:3333/easy_linker_a?useUnicode=true&characterEncoding=utf8&useSSL=true
++spring.datasource.url=jdbc:mysql://139.224.65.95:3333/easy_linker_a?useUnicode=true&characterEncoding=utf8&useSSL=true
+ spring.datasource.username=root
+-spring.datasource.password=root
++spring.datasource.password=admin123
+ spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+ ##############################################################################################################
+ #JPA Configuration:
+Index: src/main/java/com/wwh/iot/easylinker/activemqplugin/AuthBroker.java
+===================================================================
+--- src/main/java/com/wwh/iot/easylinker/activemqplugin/AuthBroker.java	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
++++ src/main/java/com/wwh/iot/easylinker/activemqplugin/AuthBroker.java	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
+@@ -1,32 +0,0 @@
+-package com.wwh.iot.easylinker.activemqplugin;
+-
+-import org.apache.activemq.broker.Broker;
+-import org.apache.activemq.broker.BrokerFilter;
+-import org.apache.activemq.broker.ProducerBrokerExchange;
+-import org.apache.activemq.command.ActiveMQTextMessage;
+-import org.apache.activemq.command.Message;
+-
+-/**
+- * Created by wwhai on 2017/9/1.
+- */
+-public class AuthBroker extends BrokerFilter {
+-
+-    public AuthBroker(Broker next) {
+-        super(next);
+-    }
+-
+-    @Override
+-    public void send(ProducerBrokerExchange producerExchange, Message messageSend) throws Exception {
+-        ActiveMQTextMessage receivedMessage = (ActiveMQTextMessage) messageSend;
+-        String dest=receivedMessage.getDestination().toString();
+-        if (dest.equals("topic://DISCONNECTED")) {
+-            removeConnection(getAdminConnectionContext(), receivedMessage.getConnection().getConnectionInfo(), new Exception("error"));
+-            System.out.println("remove connection :"+receivedMessage.getProducerId());
+-
+-
+-        }
+-
+-
+-    }
+-
+-}
+Index: src/main/java/com/wwh/iot/easylinker/entity/data/TypeMediaData.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/wwh/iot/easylinker/entity/data/TypeMediaData.java	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
++++ src/main/java/com/wwh/iot/easylinker/entity/data/TypeMediaData.java	(revision )
+@@ -4,13 +4,45 @@
+  * Created by wwhai on 2017/7/31.
+  */
+ 
++import com.wwh.iot.easylinker.entity.AppUser;
+ import com.wwh.iot.easylinker.entity.BaseEntity;
++import com.wwh.iot.easylinker.entity.Device;
+ 
++import javax.persistence.CascadeType;
+ import javax.persistence.Entity;
++import javax.persistence.ManyToOne;
+ 
+ /**
+  * 媒体类型持久化存档数据
+  */
+ @Entity
+ public class TypeMediaData extends BaseEntity{
++    private String path;
++    private String name;
++    @ManyToOne(cascade = CascadeType.ALL,optional = true)
++    private Device device;
++
++    public String getPath() {
++        return path;
++    }
++
++    public void setPath(String path) {
++        this.path = path;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public void setDevice(Device device) {
++        this.device = device;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public Device getDevice() {
++        return device;
++    }
+ }
+Index: src/main/java/com/wwh/iot/easylinker/apiv1/APIV1Controller.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/wwh/iot/easylinker/apiv1/APIV1Controller.java	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
++++ src/main/java/com/wwh/iot/easylinker/apiv1/APIV1Controller.java	(revision )
+@@ -1,15 +1,19 @@
+ package com.wwh.iot.easylinker.apiv1;
+ 
+ import com.alibaba.fastjson.JSONObject;
+-import com.wwh.iot.easylinker.configure.activemq.ActiveMQMessageProducer;
+-import com.wwh.iot.easylinker.constants.DeviceType;
+-import com.wwh.iot.easylinker.constants.SystemMessage;
+-import org.hibernate.annotations.Filter;
++import com.wwh.iot.easylinker.entity.Device;
++import com.wwh.iot.easylinker.entity.data.TypeMediaData;
++import com.wwh.iot.easylinker.repository.DeviceRepository;
++import com.wwh.iot.easylinker.repository.TypeMediaDataRepository;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RequestParam;
+-import org.springframework.web.bind.annotation.ResponseBody;
+ import org.springframework.web.bind.annotation.RestController;
++import org.springframework.web.multipart.MultipartFile;
++
++import java.io.File;
++import java.io.IOException;
++import java.util.UUID;
+ 
+ /**
+  * Created by wwhai on 2017/8/28.
+@@ -18,19 +22,75 @@
+ @RestController
+ public class APIV1Controller {
+ 
+-    MessageSender messageSender=new MessageSender() ;
++    @Autowired
++    DeviceRepository deviceRepository;
++
++    @Autowired
++    TypeMediaDataRepository typeMediaDataRepository;
++
++    MessageSender messageSender = new MessageSender();
+ 
++
+     @RequestMapping("/test")
+     public JSONObject test() {
+-        JSONObject jsonObject=new JSONObject();
+-        jsonObject.put("message","test ok!");
+-        jsonObject.put("state",1);
++        JSONObject jsonObject = new JSONObject();
++        jsonObject.put("message", "test ok!");
++        jsonObject.put("state", 1);
+         return jsonObject;
+     }
+ 
++
+     @RequestMapping("/sendMessage")
+     public JSONObject sendMessage(@RequestParam String deviceId, @RequestParam(defaultValue = "default") String message) {
+         return messageSender.pushMessage(deviceId, message);
+ 
++    }
++
++    @RequestMapping("/uploadMediaMessage")
++    public JSONObject uploadMediaMessage(@RequestParam String deviceId,  @RequestParam MultipartFile multipartFile) throws IOException {
++
++        if (multipartFile.isEmpty()) {
++            JSONObject jsonObject = new JSONObject();
++            jsonObject.put("message", "文件为空!");
++            jsonObject.put("state", 0);
++            return jsonObject;
++        }
++        String originalFilename = multipartFile.getOriginalFilename();
++        String suffixName = originalFilename.substring(originalFilename.lastIndexOf("."));
++        String newFilePath = "/";
++        String newFileName = UUID.randomUUID() + suffixName;
++        File newFile = new File(newFilePath + newFileName);
++        if (!newFile.exists()) {
++            System.out.println("文件不存在");
++            newFile.createNewFile();
++        }
++
++        Device device = deviceRepository.findOne(deviceId);
++        if (device == null) {
++            JSONObject jsonObject = new JSONObject();
++            jsonObject.put("message", "设备不存在!");
++            jsonObject.put("state", 0);
++            return jsonObject;
++        }
++        TypeMediaData typeMediaData = new TypeMediaData();
++        typeMediaData.setPath(newFileName);
++        typeMediaData.setDevice(device);
++        typeMediaData.setName(originalFilename);
++        typeMediaDataRepository.save(typeMediaData);
++        try {
++
++            multipartFile.transferTo(newFile);
++            JSONObject jsonObject = new JSONObject();
++            jsonObject.put("message", "Success!");
++            System.out.println(newFile.getCanonicalPath());
++            jsonObject.put("state", 1);
++            return jsonObject;
++        } catch (Exception e) {
++            e.printStackTrace();
++            JSONObject jsonObject = new JSONObject();
++            jsonObject.put("message", "Failed!");
++            jsonObject.put("state", 0);
++            return jsonObject;
++        }
+     }
+ }
+Index: src/main/java/com/wwh/iot/easylinker/activemqplugin/ActivemqAuthPlugin.java
+===================================================================
+--- src/main/java/com/wwh/iot/easylinker/activemqplugin/ActivemqAuthPlugin.java	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
++++ src/main/java/com/wwh/iot/easylinker/activemqplugin/ActivemqAuthPlugin.java	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
+@@ -1,15 +0,0 @@
+-package com.wwh.iot.easylinker.activemqplugin;
+-
+-import org.apache.activemq.broker.Broker;
+-import org.apache.activemq.broker.BrokerPlugin;
+-
+-
+-/**
+- * Created by wwhai on 2017/9/1.
+- */
+-public class ActivemqAuthPlugin implements BrokerPlugin {
+-    @Override
+-    public Broker installPlugin(Broker broker) throws Exception {
+-        return new AuthBroker(broker);
+-    }
+-}
+Index: src/main/resources/templates/admin/deviceDetail/content.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/templates/admin/deviceDetail/content.html	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
++++ src/main/resources/templates/admin/deviceDetail/content.html	(revision )
+@@ -74,6 +74,8 @@
+ 
+ <script type="application/javascript">
+     function push() {
++        console.log($('#deviceId').val());
++        console.log($('#message').val());
+         $.post("/admin/pushMessage", {
+             deviceId:$('#deviceId').val(),
+             message: $('#message').val()
+Index: src/main/java/com/wwh/iot/easylinker/entity/Device.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/wwh/iot/easylinker/entity/Device.java	(revision 4f330f80d6621ff1c5ce1211c0769040b43891b0)
++++ src/main/java/com/wwh/iot/easylinker/entity/Device.java	(revision )
+@@ -1,8 +1,10 @@
+ package com.wwh.iot.easylinker.entity;
+ 
+ import com.wwh.iot.easylinker.constants.DeviceType;
++import com.wwh.iot.easylinker.entity.data.TypeMediaData;
+ 
+ import javax.persistence.*;
++import java.util.List;
+ import java.util.UUID;
+ 
+ /**
+@@ -25,6 +27,9 @@
+     private AppUser appUser;
+     private Boolean isOnline=false;
+ 
++    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "device")
++    private List<TypeMediaData> dataList;
++
+     public void setConnectionId(String connectionId) {
+         this.connectionId = connectionId;
+     }
