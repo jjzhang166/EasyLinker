@@ -142,11 +142,11 @@ public class AdminController {
     /**
      * 获取数据列表
      */
-    public JSONObject deviceData(@RequestParam(name = "pageNumber", required = false, defaultValue = "1") Integer pageNumber,
+    public JSONObject deviceData(@RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
                            @RequestParam(name = "deviceId") String deviceId,
                            @RequestParam(name = "deviceType") DeviceType deviceType,
                            @RequestParam(name = "size", required = false, defaultValue = "10") Integer size) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, size);
+        PageRequest pageRequest = new PageRequest(pageNumber, size);
         Device device = deviceRepository.findOne(deviceId);
         JSONObject resultJson=new JSONObject();
         switch (deviceType.toString()) {

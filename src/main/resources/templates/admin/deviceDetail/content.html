@@ -81,6 +81,69 @@
 </div>
 
 
+<script type="application/javascript">
+
+    paginate = function (state) {
+
+        $.post("/admin/deviceData", {
+            deviceId: $('#deviceId').val(),
+            deviceType: $('#deviceType').val(),
+            pageNumber: (parseInt($("#page").text())),
+        }, function (data, status) {
+            if (status == "success") {
+                var dataList = data.data.content;
+                var isFirst = data.data.first;
+                var isLast = data.data.last;
+                var tableContent = "";
+                var pageNumber = data.data.number;
+
+                if (state == "PRE") {
+                    console.log("上一页");
+                    $("#page").text(parseInt(pageNumber-1));
+                } else if (state == "NEXT") {
+                    console.log("下一页");
+                    $("#page").text(parseInt(pageNumber+1));
+                } else if (state == "INDEX") {
+                    $("#page").text(parseInt(pageNumber));
+                }
+                if ( (parseInt($("#page").text())<0 )){
+                    $("#page").text(parseInt(1));
+                }
+                for (i in dataList) {
+                    tableContent +=
+                        '<tr>' +
+                        '<td>' + dataList[i].value + '</td>' +
+                        '<td>' + dataList[i].name + '</td>' +
+                        '<td>' + new Date(dataList[i].createTime).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ") + '</td>' +
+                        '</tr>'
+                }
+                $('#data-result').html(tableContent);
+
+                if (isFirst && !isLast) {
+                    $("#pre").css('display', 'none');
+                    $("#next").css('display', 'inline');
+                } else if (isFirst && isLast) {
+                    //都禁用
+                    $("#pre").css('display', 'none');
+                    $("#next").css('display', 'none');
+                } else if (!isFirst && isLast) {
+                    //上一页
+                    $("#pre").css('display', 'inline');
+                    $("#next").css('display', 'none');
+                } else if (!isFirst && !isLast) {
+                    //上一页 下一页
+                    $("#pre").css('display', 'inline');
+                    $("#next").css('display', 'inline');
+                }
+
+            } else {
+                console.log("暂时没有数据!")
+            }
+        });
+
+    }
+</script>
+
 <div class="widget am-cf" th:if="${device.type.name() == 'TYPE_SWITCHER'}">
     <div class=" widget-head am-cf">
         <div class="widget-title am-fl">状态</div>
@@ -133,6 +196,13 @@
             alert("推送成功！" + status);
         });
     }
+</script>
+
+<script type="application/javascript">
+
+    $(document).ready(function () {
+        paginate("INDEX");
+    });
 </script>
 
 
@@ -226,67 +296,6 @@
 
 
 <div class="widget am-cf" th:if="${device.type.name() == 'TYPE_VALUE'}">
-    <script type="application/javascript">
-        $(document).ready(function () {
-            paginate();
-        })
-    </script>
-    <script type="application/javascript">
-        function paginate() {
-
-            $.post("/admin/deviceData", {
-                deviceId: $('#deviceId').val(),
-                deviceType: "TYPE_VALUE",
-                pageNumber: $('#pageNumber').val(),
-            }, function (data, status) {
-                console.info(data);
-                var size = data.data.totalElements;
-                var dataList = data.data.content;
-                var isFirst = data.data.first;
-                var isLast = data.data.last;
-                var tableContent = "";
-                var pageBarContent = "";
-                var pageNumber = data.data.number;
-                for (i in dataList) {
-
-                    tableContent +=
-                        '<tr>' +
-                        '<td>' + dataList[i].value + '</td>' +
-                        '<td>' + new Date(dataList[i].createTime).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ") + '</td>' +
-                        '</tr>'
-                }
-                $('#data-result').html(tableContent);
-
-                if (isFirst && !isLast) {
-                    pageBarContent =
-                        '<li id="next"  class="am-btn am-btn-warning">下一页</li>' +
-                        '<li id="pageNumber">' + pageNumber + '</li>';
-                    $('#pagination').html(pageBarContent);
-
-                } else if (isFirst && isLast) {
-                    pageBarContent =
-                        '<li id="pageNumber">' + pageNumber + '</li>';
-                    $('#pagination').html(pageBarContent);
-
-                } else if (!isFirst && isLast) {
-                    pageBarContent =
-                        '<li id="pre" class="am-btn am-btn-warning"><a>上一页</a></li>' +
-                        '<li id="pageNumber">' + pageNumber + '</li>';
-                    $('#pagination').html(pageBarContent);
-
-                } else if (!isFirst && !isLast) {
-                    pageBarContent =
-                        '<li id="pre" class="am-btn am-btn-warning"><a>上一页</a></li>' +
-                        '<li id="pageNumber">' + pageNumber + '</li>' +
-                        '<li id="next" class="am-btn am-btn-warning"><a>下一页</a></li>';
-                    $('#pagination').html(pageBarContent);
-
-                }
-            });
-        }
-
-
-    </script>
 
     <div class="widget-head am-cf">
         <div class="widget-title am-fl">数据预览</div>
@@ -295,8 +304,8 @@
     <table class="am-table am-table-bordered am-table-striped am-table-compact" id="data-table">
         <thead>
         <tr>
-            <!-- <th>ID</th>-->
             <th>值</th>
+            <th>单位</th>
             <th>创建时间</th>
         </tr>
         </thead>
@@ -304,13 +313,29 @@
         </tbody>
 
     </table>
-    <ul class="am-pagination" id="pagination">
 
+    <ul class="am-pagination" id="pagination">
+        <li>
+            <button id="pre" class="am-btn am-btn-warning">&laquo; 上一页</button>
+        </li>
+        <li>
+            <button type="button" id="page" class="am-btn am-btn-success">0</button>
+        </li>
+        <li>
+            <button id="next" class="am-btn am-btn-warning">下一页 &raquo;</button>
+        </li>
     </ul>
 
 </div>
-
-
-
-
-
+<script type="application/javascript">
+    $(function () {
+        $("#pre").click(function () {
+            paginate("PRE");
+        });
+    });
+    $(function () {
+        $("#next").click(function () {
+            paginate("NEXT");
+        });
+    });
+</script>
