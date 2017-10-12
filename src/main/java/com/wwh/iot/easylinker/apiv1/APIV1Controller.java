@@ -3,7 +3,6 @@ package com.wwh.iot.easylinker.apiv1;
 import com.alibaba.fastjson.JSONObject;
 import com.wwh.iot.easylinker.constants.DeviceType;
 import com.wwh.iot.easylinker.constants.SystemMessage;
-import com.wwh.iot.easylinker.entity.AppUser;
 import com.wwh.iot.easylinker.entity.Device;
 import com.wwh.iot.easylinker.entity.data.TypeMediaData;
 import com.wwh.iot.easylinker.entity.data.TypeValueData;
@@ -12,9 +11,9 @@ import com.wwh.iot.easylinker.repository.DeviceRepository;
 import com.wwh.iot.easylinker.repository.TypeMediaDataRepository;
 import com.wwh.iot.easylinker.repository.TypeValueDataRepository;
 import com.wwh.iot.easylinker.utils.FilePathHelper;
-import com.wwh.iot.easylinker.utils.QRCodeGenerator;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,15 +59,16 @@ public class APIV1Controller {
         return messageSender.pushMessage(deviceId, message);
 
     }
+
     @RequestMapping("/sendMessageToServer")
     public JSONObject sendMessageToServer(@RequestParam String deviceId, @RequestParam(defaultValue = "hello") String message) {
-        Device device=deviceRepository.findOne(deviceId);
-        JSONObject resultJson=new JSONObject();
-        if (device!=null){
-            DeviceType type=device.getType();
-            switch (type){
+        Device device = deviceRepository.findOne(deviceId);
+        JSONObject resultJson = new JSONObject();
+        if (device != null) {
+            DeviceType type = device.getType();
+            switch (type) {
                 case TYPE_MEDIA:
-                    TypeMediaData typeMediaData=new TypeMediaData();
+                    TypeMediaData typeMediaData = new TypeMediaData();
                     typeMediaData.setDevice(device);
                     typeMediaData.setValue(message);
                     typeMediaData.setName(device.getName());
@@ -76,18 +76,19 @@ public class APIV1Controller {
                     break;
 
                 case TYPE_VALUE:
-                    TypeValueData typeValueData=new TypeValueData();
+                    TypeValueData typeValueData = new TypeValueData();
                     typeValueData.setValue(message);
                     typeValueData.setDevice(device);
                     typeValueData.setName(device.getName());
                     typeValueDataRepository.save(typeValueData);
 
-                default:break;
+                default:
+                    break;
             }
-            resultJson.put("state",1);
+            resultJson.put("state", 1);
             resultJson.put("message", SystemMessage.OPERATE_SUCCESS.toString());
-        }else {
-            resultJson.put("state",0);
+        } else {
+            resultJson.put("state", 0);
             resultJson.put("message", SystemMessage.OPERATE_FAILED.toString());
         }
 
@@ -96,9 +97,8 @@ public class APIV1Controller {
     }
 
 
-
     @RequestMapping("/uploadMediaMessage")
-    public JSONObject uploadMediaMessage(@RequestParam String deviceId,  @RequestParam MultipartFile multipartFile) throws IOException {
+    public JSONObject uploadMediaMessage(@RequestParam String deviceId, @RequestParam MultipartFile multipartFile) throws IOException {
 
         if (multipartFile.isEmpty()) {
             JSONObject jsonObject = new JSONObject();
@@ -143,6 +143,26 @@ public class APIV1Controller {
             jsonObject.put("state", 0);
             return jsonObject;
         }
+    }
+
+    @RequestMapping("/getValueDatas")
+    public JSONObject getValueDatas(@RequestParam(defaultValue = "") String deviceId, int page) {
+        JSONObject jsonObject=new JSONObject();
+        Page<TypeValueData> dataPage = null;
+        Device device = deviceRepository.findOne(deviceId);
+        if (device != null) {
+            dataPage = typeValueDataRepository.findAllByDeviceOrderByCreateTimeDesc(device, new PageRequest(10, page));
+
+            jsonObject.put("state",1);
+            jsonObject.put("message",SystemMessage.OPERATE_SUCCESS);
+            jsonObject.put("data",dataPage);
+        }else {
+            jsonObject.put("state",0);
+            jsonObject.put("message",SystemMessage.OPERATE_FAILED);
+        }
+        return jsonObject;
+
+
     }
 
 }
