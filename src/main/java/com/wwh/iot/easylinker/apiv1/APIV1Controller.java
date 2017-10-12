@@ -29,7 +29,6 @@ import java.util.UUID;
  */
 @RequestMapping("/apiv1")
 @RestController
-@Api
 public class APIV1Controller {
     @Autowired
     AppUserRepository appUserRepository;
@@ -55,7 +54,9 @@ public class APIV1Controller {
 
 
     @RequestMapping("/sendMessageToDevice")
-    public JSONObject sendMessageToDevice(@RequestParam String deviceId, @RequestParam(defaultValue = "hello") String message) {
+    public JSONObject sendMessageToDevice(@RequestParam(defaultValue = "null") String deviceId, @RequestParam(defaultValue = "hello") String message) {
+        System.out.println(deviceId);
+
         return messageSender.pushMessage(deviceId, message);
 
     }

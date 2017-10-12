@@ -14,7 +14,6 @@ public class FileUploadConfig {
     @Bean
     MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setLocation("/temp/");
         return factory.createMultipartConfig();
     }
 
