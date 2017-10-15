@@ -124,6 +124,31 @@
             <groupId>net.sourceforge.nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-kahadb-store -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-kahadb-store</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-openwire-legacy -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-openwire-legacy</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-mqtt -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-mqtt</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-http -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-http</artifactId>
+        </dependency>
+
+
     </dependencies>
     <build>
         <resources>

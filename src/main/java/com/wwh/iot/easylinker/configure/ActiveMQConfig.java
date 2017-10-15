@@ -3,8 +3,13 @@ package com.wwh.iot.easylinker.configure;
 import com.wwh.iot.easylinker.configure.activemq.ActiveMQExceptionListener;
 import com.wwh.iot.easylinker.configure.activemq.ActiveMQMessageListener;
 import com.wwh.iot.easylinker.configure.activemq.ActiveMqTransportListener;
+import com.wwh.iot.easylinker.configure.activemq.EmbedActivemqServer;
+import com.wwh.iot.easylinker.configure.activemq.amqplugin.DeviceAuthPlugin;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.transport.TransportListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +19,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ActiveMQConfig {
+    private static Logger logger = LoggerFactory.getLogger(DeviceAuthPlugin.class);
+
     /**
      * ActiveMQ的工厂
      *
@@ -29,11 +36,11 @@ public class ActiveMQConfig {
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() throws Exception {
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(
-                null,
-                null,
+                DEFAULT_USER,
+                DEFAULT_PASSWORD,
                 BROKER_URL);
         activeMQConnectionFactory.setTransportListener(addActiveMqTransportListener());
-        //activeMQConnectionFactory.setWatchTopicAdvisories(true);
+        activeMQConnectionFactory.setWatchTopicAdvisories(true);
         activeMQConnectionFactory.setExceptionListener(addActiveMQExceptionListener());
 
         return activeMQConnectionFactory;
@@ -57,4 +64,10 @@ public class ActiveMQConfig {
 
         return new ActiveMQExceptionListener();
     }
+
+    @Bean
+    public BrokerService addAMQServer() throws Exception {
+        return new EmbedActivemqServer();
+    }
+
 }

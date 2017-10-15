@@ -49,7 +49,7 @@ public class ApiACLFilter implements Filter {
 
     @Override
     public void destroy() {
-        destroy();
+        //destroy();
 
     }
 }
