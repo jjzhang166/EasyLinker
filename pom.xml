@@ -5,7 +5,7 @@
 
     <groupId>com.wwh.iot.easylinker</groupId>
     <artifactId>easylinker</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-debug</version>
     <packaging>jar</packaging>
 
     <name>easylinker</name>
@@ -64,20 +64,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-activemq</artifactId>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-activemq</artifactId>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-broker</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-client</artifactId>
-        </dependency>
         <!-- Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -121,21 +113,43 @@
             <artifactId>nekohtml</artifactId>
         </dependency>
 
+
+
+
+
+
+
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-broker</artifactId>
+            <version>5.13.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client</artifactId>
+            <version>5.13.0</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-kahadb-store -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-kahadb-store</artifactId>
+            <version>5.13.0</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-openwire-legacy -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-openwire-legacy</artifactId>
+            <version>5.13.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-mqtt -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-mqtt</artifactId>
+            <version>5.13.0</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-http -->
@@ -155,12 +169,12 @@
             <artifactId>activemq-jdbc-store</artifactId>
             <version>5.13.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-jms-pool -->
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-jms-pool</artifactId>
-            <version>5.13.0</version>
-        </dependency>
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.activemq/activemq-jms-pool &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.activemq</groupId>-->
+            <!--<artifactId>activemq-jms-pool</artifactId>-->
+            <!--<version>5.13.0</version>-->
+        <!--</dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-pool -->
         <dependency>

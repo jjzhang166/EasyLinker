@@ -50,6 +50,10 @@ public class EmbedActivemqServer extends BrokerService {
             this.setDataDirectory(KAHADB_PATH);
             this.setUseShutdownHook(true);
             this.setAllowTempAutoCreationOnSend(true);
+
+
+
+
             /**
              *增加连接器
              */
