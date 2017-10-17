@@ -147,6 +147,18 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-http</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.alexkasko.springjdbc/springjdbc-iterable -->
+        <dependency>
+            <groupId>com.alexkasko.springjdbc</groupId>
+            <artifactId>springjdbc-iterable</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-jdbc-store -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-jdbc-store</artifactId>
+            <version>5.13.0</version>
+        </dependency>
 
 
     </dependencies>

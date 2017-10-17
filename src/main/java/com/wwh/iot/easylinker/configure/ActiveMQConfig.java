@@ -10,9 +10,11 @@ import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.transport.TransportListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.core.JmsTemplate;
 
 /**
  * Created by wwhai on 2017/7/31.
@@ -36,11 +38,12 @@ public class ActiveMQConfig {
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() throws Exception {
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(
-                DEFAULT_USER,
-                DEFAULT_PASSWORD,
+                null,
+                null,
                 BROKER_URL);
-        activeMQConnectionFactory.setTransportListener(addActiveMqTransportListener());
         activeMQConnectionFactory.setWatchTopicAdvisories(true);
+
+        activeMQConnectionFactory.setTransportListener(addActiveMqTransportListener());
         activeMQConnectionFactory.setExceptionListener(addActiveMQExceptionListener());
 
         return activeMQConnectionFactory;
@@ -67,7 +70,11 @@ public class ActiveMQConfig {
 
     @Bean
     public BrokerService addAMQServer() throws Exception {
-        return new EmbedActivemqServer();
+        EmbedActivemqServer embedActivemqServer=new EmbedActivemqServer();
+        embedActivemqServer.start();
+        return embedActivemqServer;
     }
+
+
 
 }
