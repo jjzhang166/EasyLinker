@@ -25,11 +25,7 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -157,6 +153,19 @@
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-jdbc-store</artifactId>
+            <version>5.13.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-jms-pool -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-jms-pool</artifactId>
+            <version>5.13.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-pool -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-pool</artifactId>
             <version>5.13.0</version>
         </dependency>
 

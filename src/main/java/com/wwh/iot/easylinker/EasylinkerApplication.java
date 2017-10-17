@@ -19,12 +19,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @SpringBootApplication
 @EnableWebSecurity
-
 @EnableScheduling
 @EnableWebMvc
 @EnableSwagger2
 @ServletComponentScan
-@EnableJms
 public class EasylinkerApplication implements CommandLineRunner {
     Logger logger = LoggerFactory.getLogger(EasylinkerApplication.class);
 
@@ -34,6 +32,7 @@ public class EasylinkerApplication implements CommandLineRunner {
     public void run(String... strings) throws Exception {
 
     }
+
 
 
 }

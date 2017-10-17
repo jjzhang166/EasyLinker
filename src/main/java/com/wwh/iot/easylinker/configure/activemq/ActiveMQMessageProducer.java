@@ -23,16 +23,16 @@ public class ActiveMQMessageProducer {
 
     @JmsListener(destination = ">")
     public void testReceived(ActiveMQMessage connectionMessage) {
-        System.out.println(connectionMessage);
+        System.out.println("ActiveMQMessageProducer"+connectionMessage);
 
     }
 
 
-//    @Scheduled(fixedDelay = 3000)//每3s执行1次
-//    public void testSend() {
-//        ActiveMQTopic activeMQTopic = new ActiveMQTopic("test");
-//        this.jmsTemplate.convertAndSend(activeMQTopic, "test message");
-//    }
+    @Scheduled(fixedDelay = 3000)//每3s执行1次
+    public void testSend() {
+        ActiveMQTopic activeMQTopic = new ActiveMQTopic("test");
+        this.jmsTemplate.convertAndSend(activeMQTopic, "test message");
+    }
 
     public JSONObject pushMessage(String deviceId, String message) {
         this.jmsTemplate.convertAndSend(new ActiveMQTopic("device." + deviceId), message);

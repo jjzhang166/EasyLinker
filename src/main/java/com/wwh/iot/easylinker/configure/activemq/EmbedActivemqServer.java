@@ -39,18 +39,38 @@ public class EmbedActivemqServer extends BrokerService {
 
     public EmbedActivemqServer() {
         try {
+            /**
+             * 设置一些常量
+             */
             this.setBrokerName("easylinker-server");
             this.setAdvisorySupport(true);
             this.setPlugins(new BrokerPlugin[]{new PluginInstaller()});
+            this.setUseJmx(false);
+            this.setPersistent(true);
+            this.setDataDirectory(KAHADB_PATH);
+            this.setUseShutdownHook(true);
+            this.setAllowTempAutoCreationOnSend(true);
+            /**
+             *增加连接器
+             */
             TransportConnector openwireConnector = new TransportConnector();
             TransportConnector mqttConnector = new TransportConnector();
             openwireConnector.setName("openwire");
             openwireConnector.setUri(new URI(OPEN_WIRE_URL));
             mqttConnector.setName("mqtt");
             mqttConnector.setUri(new URI(MQTT_URL));
+
+            List<TransportConnector> transportConnectors = new ArrayList<>();
+            transportConnectors.add(openwireConnector);
+            transportConnectors.add(mqttConnector);
+            this.setTransportConnectors(transportConnectors);
+
+            /**
+             * 消息策略
+             */
             List<PolicyEntry> policyEntries = new ArrayList<>();
             PolicyEntry topicPolicyEntry = new PolicyEntry();
-            topicPolicyEntry.setTopic("ActiveMQ.Advisory.Connection.>");
+            topicPolicyEntry.setTopic(">");
             topicPolicyEntry.setAdvisoryForConsumed(true);
             topicPolicyEntry.setAdvisoryForDelivery(true);
             ConstantPendingMessageLimitStrategy pendingMessageLimitStrategy = new ConstantPendingMessageLimitStrategy();
@@ -59,6 +79,10 @@ public class EmbedActivemqServer extends BrokerService {
             policyEntries.add(topicPolicyEntry);
             PolicyMap policyMap = new PolicyMap();
             policyMap.setPolicyEntries(policyEntries);
+            this.setDestinationPolicy(policyMap);
+            /**
+             *内存配置
+             */
             SystemUsage systemUsage = new SystemUsage();
             MemoryUsage memoryUsage = new MemoryUsage();
             memoryUsage.setPercentOfJvmHeap(70);
@@ -69,17 +93,12 @@ public class EmbedActivemqServer extends BrokerService {
             TempUsage tempUsage = new TempUsage();
             tempUsage.setLimit(50);
             systemUsage.setTempUsage(tempUsage);
-            List<TransportConnector> transportConnectors = new ArrayList<>();
-            transportConnectors.add(openwireConnector);
-            transportConnectors.add(mqttConnector);
-
-            this.setPersistent(true);
-            this.setDestinationPolicy(policyMap);
             this.setSystemUsage(systemUsage);
-            this.setTransportConnectors(transportConnectors);
-            this.setDataDirectory(KAHADB_PATH);
-            this.setUseShutdownHook(true);
-            this.setAllowTempAutoCreationOnSend(true);
+
+
+            /**
+             *通知管理
+             */
 
             ActiveMQTopic topic = new ActiveMQTopic("ActiveMQ.Advisory.Connection");
             this.setDestinations(new ActiveMQDestination[]{topic});
@@ -87,10 +106,15 @@ public class EmbedActivemqServer extends BrokerService {
             managementContext.setCreateConnector(true);
             this.setManagementContext(managementContext);
 
-            this.setUseJmx(false);
+            /**
+             *KAHA数据库
+             */
+
             KahaDBStore kahaDBStore = new KahaDBStore();
             kahaDBStore.setDirectory(new File(KAHADB_PATH + System.currentTimeMillis()));
             this.setPersistenceAdapter(kahaDBStore);
+
+
         } catch (Exception e) {
             logger.error("EmbedActivemqServer start failed!");
             e.printStackTrace();
