@@ -35,7 +35,7 @@ public class EmbedActivemqServer extends BrokerService {
     public static final String MQTT_URL = "mqtt://0.0.0.0:1883?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600";
     public static final String STOMP_URL = "stomp://0.0.0.0:61613?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600";
     public static final String AMQP_URL = "amqp://0.0.0.0:5672?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600";
-    public static final String KAHADB_PATH = "./data/easylinker-activemq-data";
+    public static final String KAHADB_PATH = "/data/easylinker-activemq-data";
 
     public EmbedActivemqServer() {
         try {
