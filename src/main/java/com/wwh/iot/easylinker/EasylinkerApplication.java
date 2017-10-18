@@ -1,14 +1,11 @@
 package com.wwh.iot.easylinker;
 
-import com.wwh.iot.easylinker.entity.AppUser;
-import com.wwh.iot.easylinker.repository.AppUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -31,8 +28,12 @@ public class EasylinkerApplication implements CommandLineRunner {
 
     public void run(String... strings) throws Exception {
 
+
     }
 
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(EasylinkerApplication.class, args);
 
+    }
 
 }

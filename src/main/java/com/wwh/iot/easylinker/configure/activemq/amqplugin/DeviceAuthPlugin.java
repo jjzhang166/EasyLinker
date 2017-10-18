@@ -5,10 +5,7 @@ import org.apache.activemq.broker.BrokerFilter;
 import org.apache.activemq.broker.ConnectionContext;
 import org.apache.activemq.broker.ProducerBrokerExchange;
 import org.apache.activemq.broker.region.Destination;
-import org.apache.activemq.command.ActiveMQDestination;
-import org.apache.activemq.command.ActiveMQTopic;
-import org.apache.activemq.command.ConnectionInfo;
-import org.apache.activemq.command.Message;
+import org.apache.activemq.command.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -57,8 +54,6 @@ public class DeviceAuthPlugin extends BrokerFilter {
 
     @Override
     public void send(ProducerBrokerExchange producerExchange, Message messageSend) throws Exception {
-        super.send(producerExchange, messageSend);
-        Topic topic = new ActiveMQTopic("ActiveMQ.Advisory.>");
 
         logger.info("send"+messageSend.getMessage());
     }

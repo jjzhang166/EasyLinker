@@ -1,10 +1,9 @@
-package com.wwh.iot.easylinker.configure.activemq;
+package com.wwh.iot.easylinker.configure.activemq.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
@@ -15,7 +14,7 @@ import javax.jms.TextMessage;
 /**
  * Mq消息监听器，传感器消息传入入口
  */
-@Component
+//@Component
 public class ActiveMQMessageListener implements MessageListener {
     Logger logger = LoggerFactory.getLogger(ActiveMQMessageListener.class);
 

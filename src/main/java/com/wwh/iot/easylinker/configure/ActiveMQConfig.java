@@ -1,10 +1,13 @@
 package com.wwh.iot.easylinker.configure;
 
-import com.wwh.iot.easylinker.configure.activemq.ActiveMQExceptionListener;
-import com.wwh.iot.easylinker.configure.activemq.ActiveMQMessageListener;
-import com.wwh.iot.easylinker.configure.activemq.ActiveMqTransportListener;
 import com.wwh.iot.easylinker.configure.activemq.EmbedActivemqServer;
 import com.wwh.iot.easylinker.configure.activemq.amqplugin.DeviceAuthPlugin;
+import com.wwh.iot.easylinker.configure.activemq.connection.AdvisoryConnection;
+import com.wwh.iot.easylinker.configure.activemq.listener.ActiveMQExceptionListener;
+import com.wwh.iot.easylinker.configure.activemq.listener.ActiveMQMessageListener;
+import com.wwh.iot.easylinker.configure.activemq.listener.ActiveMqTransportListener;
+import com.wwh.iot.easylinker.entity.Device;
+import com.wwh.iot.easylinker.repository.DeviceRepository;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.transport.TransportListener;
@@ -15,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
+
+import javax.jms.MessageConsumer;
 
 /**
  * Created by wwhai on 2017/7/31.
@@ -34,19 +39,24 @@ public class ActiveMQConfig {
     String DEFAULT_USER;
     @Value("${spring.activemq.password}")
     String DEFAULT_PASSWORD;
+    @Autowired
+    DeviceRepository deviceRepository;
+    Device device = null;
+    private boolean isLocalDevice = false;
+
 
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() throws Exception {
-        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(
-                null,
-                null,
-                BROKER_URL);
-        activeMQConnectionFactory.setWatchTopicAdvisories(true);
 
+
+        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(BROKER_URL);
+        activeMQConnectionFactory.setWatchTopicAdvisories(true);
         activeMQConnectionFactory.setTransportListener(addActiveMqTransportListener());
         activeMQConnectionFactory.setExceptionListener(addActiveMQExceptionListener());
 
+
         return activeMQConnectionFactory;
+
     }
 
 
@@ -69,12 +79,26 @@ public class ActiveMQConfig {
     }
 
     @Bean
+
     public BrokerService addAMQServer() throws Exception {
-        EmbedActivemqServer embedActivemqServer=new EmbedActivemqServer();
+        EmbedActivemqServer embedActivemqServer = new EmbedActivemqServer();
         embedActivemqServer.start();
+
+
         return embedActivemqServer;
     }
 
+    @Bean
+    public JmsTemplate addJmsTemplate() throws Exception {
+        JmsTemplate jmsTemplate = new JmsTemplate(activeMQConnectionFactory());
+        return jmsTemplate;
+    }
+
+    @Bean
+    public MessageConsumer addMessageConsumer() throws Exception {
+        AdvisoryConnection advisoryConnection = new AdvisoryConnection(activeMQConnectionFactory());
+        return advisoryConnection.getMessageConsumer();
+    }
 
 
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by wwhai on 2017/10/17.
  */
+@Component
 public class BrokerJdbcTemplate extends JdbcTemplate {
     /**
      * spring.datasource.driver-class-name=com.mysql.jdbc.Driver

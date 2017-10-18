@@ -94,9 +94,9 @@ public class EmbedActivemqServer extends BrokerService {
             StoreUsage storeUsage = new StoreUsage();
             storeUsage.setLimit(100);
             systemUsage.setStoreUsage(storeUsage);
-            TempUsage tempUsage = new TempUsage();
-            tempUsage.setLimit(50);
-            systemUsage.setTempUsage(tempUsage);
+            //TempUsage tempUsage = new TempUsage();
+            //tempUsage.setLimit(50);
+            //systemUsage.setTempUsage(tempUsage);
             this.setSystemUsage(systemUsage);
 
 

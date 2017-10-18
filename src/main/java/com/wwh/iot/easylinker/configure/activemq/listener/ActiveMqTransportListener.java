@@ -1,4 +1,4 @@
-package com.wwh.iot.easylinker.configure.activemq;
+package com.wwh.iot.easylinker.configure.activemq.listener;
 
 import org.apache.activemq.transport.TransportListener;
 import org.slf4j.Logger;

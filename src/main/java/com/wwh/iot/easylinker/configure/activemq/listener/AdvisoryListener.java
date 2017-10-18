@@ -1,52 +1,58 @@
-package com.wwh.iot.easylinker.configure.activemq.consumer;
+package com.wwh.iot.easylinker.configure.activemq.listener;
 
 import com.wwh.iot.easylinker.configure.activemq.amqplugin.BrokerJdbcTemplate;
+import com.wwh.iot.easylinker.configure.activemq.amqplugin.DeviceAuthPlugin;
 import com.wwh.iot.easylinker.entity.Device;
 import com.wwh.iot.easylinker.repository.DeviceRepository;
-import org.apache.activemq.command.*;
+import org.apache.activemq.command.ActiveMQMessage;
+import org.apache.activemq.command.ConnectionInfo;
+import org.apache.activemq.command.DataStructure;
+import org.apache.activemq.command.RemoveInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by wwhai on 2017/8/26.
- */
+import javax.jms.Message;
 
-/**
- * 监听设备在线状态的
- */
 @Component
-public class AdviseConsumer {
-    Logger logger = LoggerFactory.getLogger(AdviseConsumer.class);
+public class AdvisoryListener extends ActiveMQMessageListener {
+    private static Logger logger = LoggerFactory.getLogger(DeviceAuthPlugin.class);
+    BrokerJdbcTemplate brokerJdbcTemplate = new BrokerJdbcTemplate();
     @Autowired
     DeviceRepository deviceRepository;
-    Device device = null;
     private boolean isLocalDevice = false;
-    BrokerJdbcTemplate brokerJdbcTemplate = new BrokerJdbcTemplate();
 
-    @Autowired
-    private JmsTemplate jmsTemplate;
+    @Override
+    public void onMessage(Message connectionMessage) {
+        try {
+            logger.info(connectionMessage.getJMSType().toString());
 
-    @JmsListener(destination = "ActiveMQ.Advisory.Connection.>")
-    public void onConnection(ActiveMQMessage connectionMessage) throws Exception {
-        System.out.println(connectionMessage);
-        DataStructure dataStructure = connectionMessage.getDataStructure();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ActiveMQMessage activeMQMessage = (ActiveMQMessage) connectionMessage;
+        logger.info(connectionMessage.toString());
+        DataStructure dataStructure = activeMQMessage.getDataStructure();
 
         if (dataStructure instanceof ConnectionInfo) {
             String connectionId = ((ConnectionInfo) dataStructure).getConnectionId().toString();
             String username = (((ConnectionInfo) dataStructure).getUserName());
+            System.out.println("username  " + username);
             if (((ConnectionInfo) dataStructure).getClientIp().startsWith("tcp://127")) {
                 isLocalDevice = true;
             }
-            if ((username != null) && ((device = deviceRepository.findOne(username)) != null)) {
-                device.setConnectionId(connectionId);
-                device.setIsOnline(true);
-                deviceRepository.save(device);
-                deviceRepository.flush();
-                logger.info("Device [" + username + "] connected with connectionId:" + connectionId);
+            if (username != null) {
+                Device device = deviceRepository.findOne(username);
+                if (device != null) {
+                    device.setConnectionId(connectionId);
+                    device.setIsOnline(true);
+                    deviceRepository.save(device);
+                    deviceRepository.flush();
+                    logger.info("Device [" + username + "] connected with connectionId:" + connectionId);
+                }
+
             }
 
         } else if (dataStructure instanceof RemoveInfo && (((RemoveInfo) dataStructure).getObjectId().toString() != null)) {
@@ -55,7 +61,6 @@ public class AdviseConsumer {
             if (!isLocalDevice) {
                 if (objectId != null) {
                     Device device = deviceRepository.findByConnectionId(objectId);
-                    brokerJdbcTemplate.queryForObject("select * from device", new String[]{}, Device.class);
                     if (device != null) {
                         device.setIsOnline(false);
                         deviceRepository.save(device);

@@ -20,17 +20,11 @@ public class ActiveMQMessageProducer {
 
     @Autowired
     JmsTemplate jmsTemplate;
-
-    @JmsListener(destination = ">")
-    public void testReceived(ActiveMQMessage connectionMessage) {
-        System.out.println("ActiveMQMessageProducer"+connectionMessage);
-
-    }
-
+    ActiveMQTopic activeMQTopic = new ActiveMQTopic("test");
 
 //    @Scheduled(fixedDelay = 3000)//每3s执行1次
 //    public void testSend() {
-//        ActiveMQTopic activeMQTopic = new ActiveMQTopic("test");
+//
 //        this.jmsTemplate.convertAndSend(activeMQTopic, "test message");
 //    }
 
